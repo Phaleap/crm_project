@@ -9,4 +9,5 @@ urlpatterns = [
     path('', lambda request: redirect('dashboard/'), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),  # add this
     path('dashboard/', include('reports.urls')),              # uncomment this
+    path('customers/', include('customers.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

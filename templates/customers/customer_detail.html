@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>{{ customer.full_name }} - CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; }
+        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #1a3c5e 0%, #2d6a9f 100%); width: 240px; position: fixed; padding-top: 20px; }
+        .sidebar .brand { color: white; font-size: 1.3rem; font-weight: 700; padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar a { color: rgba(255,255,255,0.8); text-decoration: none; display: block; padding: 12px 20px; transition: all 0.2s; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.15); color: white; }
+        .sidebar a i { margin-right: 10px; }
+        .main-content { margin-left: 240px; padding: 30px; }
+        .detail-card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6c757d; font-weight: 600; }
+        .info-value { font-size: 1rem; color: #1a1a2e; margin-top: 3px; }
+        .avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #1a3c5e, #2d6a9f); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: 700; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="brand"><i class="bi bi-diagram-3"></i> CRM System</div>
+    <div class="mt-3">
+        <a href="/dashboard/"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="/customers/" class="active"><i class="bi bi-people"></i> Customers</a>
+        <a href="/admin/leads/lead/"><i class="bi bi-funnel"></i> Leads</a>
+        <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;"></div>
+        <a href="/accounts/logout/"><i class="bi bi-box-arrow-left"></i> Logout</a>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="mb-0 fw-bold"><i class="bi bi-person text-primary me-2"></i>Customer Detail</h5>
+        </div>
+        <a href="/customers/" class="btn btn-outline-secondary rounded-pill">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+
+    <div class="detail-card">
+        <!-- Header -->
+        <div class="d-flex align-items-center gap-3 mb-4 pb-4" style="border-bottom: 2px solid #f0f2f5;">
+            <div class="avatar">{{ customer.full_name|first|upper }}</div>
+            <div>
+                <h4 class="mb-1 fw-bold">{{ customer.full_name }}</h4>
+                <span class="text-muted">{{ customer.job_title|default:"" }}{% if customer.company %} @ {{ customer.company }}{% endif %}</span>
+                <div class="mt-1">
+                    <span class="badge {% if customer.status == 'active' %}bg-success{% elif customer.status == 'inactive' %}bg-secondary{% else %}bg-danger{% endif %}">
+                        {{ customer.status }}
+                    </span>
+                    {% if customer.segment %}
+                    <span class="badge bg-info bg-opacity-10 text-info ms-1">{{ customer.get_segment_display }}</span>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+
+        <!-- Info Grid -->
+        <div class="row g-4">
+            <div class="col-md-3">
+                <div class="info-label">Email</div>
+                <div class="info-value">{{ customer.email|default:"—" }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Phone</div>
+                <div class="info-value">{{ customer.phone|default:"—" }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Industry</div>
+                <div class="info-value">{{ customer.industry|default:"—" }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Location</div>
+                <div class="info-value">
+                    {% if customer.city or customer.country %}
+                        {{ customer.city }}{% if customer.city and customer.country %}, {% endif %}{{ customer.country }}
+                    {% else %}—{% endif %}
+                </div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Assigned To</div>
+                <div class="info-value">{{ customer.assigned_to|default:"—" }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Created By</div>
+                <div class="info-value">{{ customer.created_by|default:"—" }}</div>
+            </div>
+            <div class="col-md-3">
+                <div class="info-label">Created At</div>
+                <div class="info-value">{{ customer.created_at|date:"M d, Y" }}</div>
+            </div>
+        </div>
+    </div>
+</div>
+
+</body>
+</html>
