@@ -1,0 +1,321 @@
+[
+  {
+    "model": "accounts.user",
+    "pk": 2,
+    "fields": {
+      "username": "sales1",
+      "email": "sales1@crm.com",
+      "password": "pbkdf2_sha256$720000$test$YourHashHere",
+      "first_name": "Dara",
+      "last_name": "Sok",
+      "role": "sales_staff",
+      "phone": "012345678",
+      "is_active": true,
+      "is_staff": false,
+      "is_superuser": false,
+      "date_joined": "2026-01-01T00:00:00Z",
+      "groups": [],
+      "user_permissions": []
+    }
+  },
+  {
+    "model": "customers.customer",
+    "pk": 1,
+    "fields": {
+      "full_name": "Sokha Meas",
+      "email": "sokha@acleda.com",
+      "phone": "012111222",
+      "company": "ACLEDA Bank",
+      "job_title": "IT Manager",
+      "segment": "enterprise",
+      "industry": "Banking",
+      "city": "Phnom Penh",
+      "country": "Cambodia",
+      "status": "active",
+      "tags": [],
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-01-10T08:00:00Z",
+      "updated_at": "2026-01-10T08:00:00Z"
+    }
+  },
+  {
+    "model": "customers.customer",
+    "pk": 2,
+    "fields": {
+      "full_name": "Pisey Chan",
+      "email": "pisey@wing.com",
+      "phone": "012222333",
+      "company": "Wing Bank",
+      "job_title": "Operations Director",
+      "segment": "enterprise",
+      "industry": "Fintech",
+      "city": "Phnom Penh",
+      "country": "Cambodia",
+      "status": "active",
+      "tags": [],
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-01-15T08:00:00Z",
+      "updated_at": "2026-01-15T08:00:00Z"
+    }
+  },
+  {
+    "model": "customers.customer",
+    "pk": 3,
+    "fields": {
+      "full_name": "Ratha Noun",
+      "email": "ratha@camgsm.com",
+      "phone": "012333444",
+      "company": "Cellcard",
+      "job_title": "CEO",
+      "segment": "enterprise",
+      "industry": "Telecommunications",
+      "city": "Phnom Penh",
+      "country": "Cambodia",
+      "status": "active",
+      "tags": [],
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-02-01T08:00:00Z",
+      "updated_at": "2026-02-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "customers.customer",
+    "pk": 4,
+    "fields": {
+      "full_name": "Sreyleap Keo",
+      "email": "sreyleap@startup.com",
+      "phone": "012444555",
+      "company": "SmartTech Startup",
+      "job_title": "Founder",
+      "segment": "startup",
+      "industry": "Technology",
+      "city": "Siem Reap",
+      "country": "Cambodia",
+      "status": "active",
+      "tags": [],
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-02-10T08:00:00Z",
+      "updated_at": "2026-02-10T08:00:00Z"
+    }
+  },
+  {
+    "model": "customers.customer",
+    "pk": 5,
+    "fields": {
+      "full_name": "Borey Pich",
+      "email": "borey@smb.com",
+      "phone": "012555666",
+      "company": "Pich Trading Co.",
+      "job_title": "Owner",
+      "segment": "smb",
+      "industry": "Retail",
+      "city": "Battambang",
+      "country": "Cambodia",
+      "status": "inactive",
+      "tags": [],
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-03-01T08:00:00Z",
+      "updated_at": "2026-03-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "leads.lead",
+    "pk": 1,
+    "fields": {
+      "full_name": "Vichet Lim",
+      "email": "vichet@gmail.com",
+      "phone": "012666777",
+      "company": "Lim Group",
+      "source": "website",
+      "status": "new",
+      "rating": "hot",
+      "budget": "5000.00",
+      "notes": "Interested in enterprise CRM package",
+      "assigned_to": 1,
+      "converted_customer": null,
+      "converted_at": null,
+      "created_at": "2026-03-05T08:00:00Z",
+      "updated_at": "2026-03-05T08:00:00Z"
+    }
+  },
+  {
+    "model": "leads.lead",
+    "pk": 2,
+    "fields": {
+      "full_name": "Channary Phon",
+      "email": "channary@ngo.org",
+      "phone": "012777888",
+      "company": "NGO Cambodia",
+      "source": "referral",
+      "status": "contacted",
+      "rating": "warm",
+      "budget": "2000.00",
+      "notes": "Referred by Sokha Meas from ACLEDA",
+      "assigned_to": 1,
+      "converted_customer": null,
+      "converted_at": null,
+      "created_at": "2026-03-10T08:00:00Z",
+      "updated_at": "2026-03-10T08:00:00Z"
+    }
+  },
+  {
+    "model": "leads.lead",
+    "pk": 3,
+    "fields": {
+      "full_name": "Menghour Tan",
+      "email": "menghour@hotel.com",
+      "phone": "012888999",
+      "company": "Phnom Penh Hotel",
+      "source": "social_media",
+      "status": "qualified",
+      "rating": "hot",
+      "budget": "8000.00",
+      "notes": "Found us on Facebook, very interested",
+      "assigned_to": 1,
+      "converted_customer": null,
+      "converted_at": null,
+      "created_at": "2026-03-15T08:00:00Z",
+      "updated_at": "2026-03-15T08:00:00Z"
+    }
+  },
+  {
+    "model": "leads.lead",
+    "pk": 4,
+    "fields": {
+      "full_name": "Daro Kim",
+      "email": "daro@factory.com",
+      "phone": "012999000",
+      "company": "Kim Factory",
+      "source": "cold_call",
+      "status": "unqualified",
+      "rating": "cold",
+      "budget": null,
+      "notes": "Not interested at this time",
+      "assigned_to": 1,
+      "converted_customer": null,
+      "converted_at": null,
+      "created_at": "2026-03-20T08:00:00Z",
+      "updated_at": "2026-03-20T08:00:00Z"
+    }
+  },
+  {
+    "model": "leads.lead",
+    "pk": 5,
+    "fields": {
+      "full_name": "Sokunthea Ros",
+      "email": "sokunthea@school.edu",
+      "phone": "012100200",
+      "company": "Cambodian School",
+      "source": "event",
+      "status": "converted",
+      "rating": "warm",
+      "budget": "3000.00",
+      "notes": "Met at Tech Expo 2026, converted to customer",
+      "assigned_to": 1,
+      "converted_customer": 1,
+      "converted_at": "2026-04-01T08:00:00Z",
+      "created_at": "2026-03-25T08:00:00Z",
+      "updated_at": "2026-04-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "opportunities.opportunity",
+    "pk": 1,
+    "fields": {
+      "title": "Enterprise CRM Package - Lim Group",
+      "customer": 1,
+      "lead": 1,
+      "stage": "proposal",
+      "value": "5000.00",
+      "probability": 60,
+      "expected_close_date": "2026-06-30",
+      "actual_close_date": null,
+      "loss_reason": "",
+      "assigned_to": 1,
+      "notes": "Presented proposal on May 1st, awaiting feedback",
+      "created_at": "2026-04-01T08:00:00Z",
+      "updated_at": "2026-04-01T08:00:00Z"
+    }
+  },
+  {
+    "model": "opportunities.opportunity",
+    "pk": 2,
+    "fields": {
+      "title": "CRM Basic Plan - Wing Bank",
+      "customer": 2,
+      "lead": null,
+      "stage": "negotiation",
+      "value": "3500.00",
+      "probability": 80,
+      "expected_close_date": "2026-05-31",
+      "actual_close_date": null,
+      "loss_reason": "",
+      "assigned_to": 1,
+      "notes": "In final negotiation, price discussion ongoing",
+      "created_at": "2026-04-05T08:00:00Z",
+      "updated_at": "2026-04-05T08:00:00Z"
+    }
+  },
+  {
+    "model": "opportunities.opportunity",
+    "pk": 3,
+    "fields": {
+      "title": "Hotel Management System - Phnom Penh Hotel",
+      "customer": 3,
+      "lead": 3,
+      "stage": "closed_won",
+      "value": "8000.00",
+      "probability": 100,
+      "expected_close_date": "2026-04-30",
+      "actual_close_date": "2026-04-28",
+      "loss_reason": "",
+      "assigned_to": 1,
+      "notes": "Deal closed successfully!",
+      "created_at": "2026-04-10T08:00:00Z",
+      "updated_at": "2026-04-28T08:00:00Z"
+    }
+  },
+  {
+    "model": "opportunities.opportunity",
+    "pk": 4,
+    "fields": {
+      "title": "Startup Package - SmartTech",
+      "customer": 4,
+      "lead": null,
+      "stage": "qualification",
+      "value": "1500.00",
+      "probability": 40,
+      "expected_close_date": "2026-07-15",
+      "actual_close_date": null,
+      "loss_reason": "",
+      "assigned_to": 1,
+      "notes": "Still evaluating their needs",
+      "created_at": "2026-04-15T08:00:00Z",
+      "updated_at": "2026-04-15T08:00:00Z"
+    }
+  },
+  {
+    "model": "opportunities.opportunity",
+    "pk": 5,
+    "fields": {
+      "title": "Retail CRM - Pich Trading",
+      "customer": 5,
+      "lead": null,
+      "stage": "closed_lost",
+      "value": "1200.00",
+      "probability": 0,
+      "expected_close_date": "2026-04-01",
+      "actual_close_date": null,
+      "loss_reason": "Budget constraints, chose a cheaper competitor",
+      "assigned_to": 1,
+      "notes": "Lost to competitor",
+      "created_at": "2026-03-20T08:00:00Z",
+      "updated_at": "2026-04-01T08:00:00Z"
+    }
+  }
+]
