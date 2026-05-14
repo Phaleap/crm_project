@@ -32,6 +32,7 @@ INSTALLED_APPS = [
     'opportunities',
     'interactions',
     'tasks',
+    'support',
 
     # CRM Apps (we'll add these step by step)
     # 'accounts',
