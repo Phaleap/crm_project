@@ -1,0 +1,60 @@
+from django.shortcuts import render, get_object_or_404, redirect
+from django.contrib.auth.decorators import login_required
+from django.db.models import Q
+from .models import Interaction
+from customers.models import Customer
+
+
+@login_required
+def interaction_list(request):
+    query = request.GET.get('q', '')
+    type_filter = request.GET.get('type', '')
+
+    interactions = Interaction.objects.select_related('customer', 'user').all()
+
+    if query:
+        interactions = interactions.filter(
+            Q(subject__icontains=query) |
+            Q(customer__full_name__icontains=query)
+        )
+    if type_filter:
+        interactions = interactions.filter(type=type_filter)
+
+    context = {
+        'interactions': interactions,
+        'query': query,
+        'type_filter': type_filter,
+        'total': interactions.count(),
+    }
+    return render(request, 'interactions/interaction_list.html', context)
+
+
+@login_required
+def interaction_add(request, customer_pk):
+    customer = get_object_or_404(Customer, pk=customer_pk)
+
+    if request.method == 'POST':
+        Interaction.objects.create(
+            customer=customer,
+            user=request.user,
+            type=request.POST.get('type'),
+            subject=request.POST.get('subject'),
+            description=request.POST.get('description', ''),
+            direction=request.POST.get('direction', ''),
+            duration_minutes=request.POST.get('duration_minutes') or None,
+            outcome=request.POST.get('outcome', ''),
+            interaction_date=request.POST.get('interaction_date'),
+        )
+        return redirect('customer_detail', pk=customer_pk)
+
+    return render(request, 'interactions/interaction_add.html', {'customer': customer})
+
+
+@login_required
+def interaction_delete(request, pk):
+    interaction = get_object_or_404(Interaction, pk=pk)
+    customer_pk = interaction.customer.pk
+    if request.method == 'POST':
+        interaction.delete()
+        return redirect('customer_detail', pk=customer_pk)
+    return render(request, 'interactions/interaction_confirm_delete.html', {'interaction': interaction})

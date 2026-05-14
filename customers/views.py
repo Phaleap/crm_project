@@ -3,6 +3,7 @@ from django.contrib.auth.decorators import login_required
 from django.db.models import Q
 from .models import Customer
 
+
 @login_required
 def customer_list(request):
     query = request.GET.get('q', '')
@@ -31,10 +32,16 @@ def customer_list(request):
     }
     return render(request, 'customers/customer_list.html', context)
 
+
 @login_required
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
-    return render(request, 'customers/customer_detail.html', {'customer': customer})
+    interactions = customer.interactions.select_related('user').order_by('-interaction_date')
+    return render(request, 'customers/customer_detail.html', {
+        'customer': customer,
+        'interactions': interactions,
+    })
+
 
 @login_required
 def customer_add(request):
@@ -56,6 +63,7 @@ def customer_add(request):
         return redirect('customer_list')
     return render(request, 'customers/customer_add.html')
 
+
 @login_required
 def customer_edit(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
@@ -73,6 +81,7 @@ def customer_edit(request, pk):
         customer.save()
         return redirect('customer_detail', pk=pk)
     return render(request, 'customers/customer_edit.html', {'customer': customer})
+
 
 @login_required
 def customer_delete(request, pk):

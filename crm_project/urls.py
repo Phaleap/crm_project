@@ -15,4 +15,5 @@ urlpatterns = [
 
     
     path('api/', include('api.urls')),
+    path('interactions/', include('interactions.urls')),
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

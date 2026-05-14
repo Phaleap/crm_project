@@ -17,6 +17,9 @@
         .info-label { font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6c757d; font-weight: 600; }
         .info-value { font-size: 1rem; color: #1a1a2e; margin-top: 3px; }
         .avatar { width: 70px; height: 70px; border-radius: 50%; background: linear-gradient(135deg, #1a3c5e, #2d6a9f); display: flex; align-items: center; justify-content: center; color: white; font-size: 1.8rem; font-weight: 700; }
+        .timeline-item { border-left: 3px solid #e9ecef; padding-left: 16px; margin-left: 8px; position: relative; padding-bottom: 20px; }
+        .timeline-item:last-child { padding-bottom: 0; }
+        .timeline-dot { width: 12px; height: 12px; border-radius: 50%; position: absolute; left: -7.5px; top: 4px; }
     </style>
 </head>
 <body>
@@ -28,6 +31,7 @@
         <a href="/customers/" class="active"><i class="bi bi-people"></i> Customers</a>
         <a href="/leads/"><i class="bi bi-funnel"></i> Leads</a>
         <a href="/opportunities/"><i class="bi bi-trophy"></i> Opportunities</a>
+        <a href="/interactions/"><i class="bi bi-chat-dots"></i> Interactions</a>
         <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
         <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;"></div>
         <a href="/accounts/logout/"><i class="bi bi-box-arrow-left"></i> Logout</a>
@@ -44,8 +48,8 @@
         </a>
     </div>
 
-    <div class="detail-card">
-        <!-- Header -->
+    <!-- Customer Info Card -->
+    <div class="detail-card mb-4">
         <div class="d-flex align-items-center gap-3 mb-4 pb-4" style="border-bottom: 2px solid #f0f2f5;">
             <div class="avatar">{{ customer.full_name|first|upper }}</div>
             <div>
@@ -60,9 +64,13 @@
                     {% endif %}
                 </div>
             </div>
+            <div class="ms-auto d-flex gap-2">
+                <a href="/customers/{{ customer.pk }}/edit/" class="btn btn-outline-warning rounded-pill">
+                    <i class="bi bi-pencil me-1"></i> Edit
+                </a>
+            </div>
         </div>
 
-        <!-- Info Grid -->
         <div class="row g-4">
             <div class="col-md-3">
                 <div class="info-label">Email</div>
@@ -97,6 +105,82 @@
                 <div class="info-value">{{ customer.created_at|date:"M d, Y" }}</div>
             </div>
         </div>
+    </div>
+
+    <!-- Interaction History -->
+    <div class="detail-card">
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <h6 class="fw-bold mb-0"><i class="bi bi-chat-dots text-primary me-2"></i>Interaction History
+                <span class="badge bg-primary bg-opacity-10 text-primary ms-1">{{ interactions.count }}</span>
+            </h6>
+            <a href="/interactions/add/{{ customer.pk }}/" class="btn btn-primary btn-sm rounded-pill px-3">
+                <i class="bi bi-plus-lg me-1"></i> Log Interaction
+            </a>
+        </div>
+
+        {% if interactions %}
+        <div class="mt-2">
+            {% for interaction in interactions %}
+            <div class="timeline-item">
+                <div class="timeline-dot
+                    {% if interaction.type == 'phone_call' %}bg-success
+                    {% elif interaction.type == 'email' %}bg-info
+                    {% elif interaction.type == 'meeting' %}bg-primary
+                    {% elif interaction.type == 'chat' %}bg-warning
+                    {% else %}bg-secondary{% endif %}">
+                </div>
+                <div class="d-flex justify-content-between align-items-start">
+                    <div>
+                        <div class="d-flex align-items-center gap-2 mb-1">
+                            {% if interaction.type == 'phone_call' %}<span class="badge bg-success">📞 Call</span>
+                            {% elif interaction.type == 'email' %}<span class="badge bg-info">📧 Email</span>
+                            {% elif interaction.type == 'meeting' %}<span class="badge bg-primary">🤝 Meeting</span>
+                            {% elif interaction.type == 'chat' %}<span class="badge bg-warning text-dark">💬 Chat</span>
+                            {% else %}<span class="badge bg-secondary">🏢 Site Visit</span>{% endif %}
+
+                            {% if interaction.direction %}
+                            <span class="badge bg-light text-dark">
+                                {% if interaction.direction == 'inbound' %}↙ Inbound{% else %}↗ Outbound{% endif %}
+                            </span>
+                            {% endif %}
+
+                            <span class="fw-semibold">{{ interaction.subject }}</span>
+                        </div>
+                        {% if interaction.description %}
+                        <p class="text-muted small mb-1">{{ interaction.description }}</p>
+                        {% endif %}
+                        <div class="d-flex gap-3">
+                            <small class="text-muted"><i class="bi bi-person me-1"></i>{{ interaction.user|default:"Unknown" }}</small>
+                            {% if interaction.duration_minutes %}
+                            <small class="text-muted"><i class="bi bi-clock me-1"></i>{{ interaction.duration_minutes }} min</small>
+                            {% endif %}
+                            {% if interaction.outcome %}
+                            <small class="text-muted"><i class="bi bi-check-circle me-1"></i>{{ interaction.get_outcome_display }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                    <div class="d-flex align-items-center gap-2">
+                        <small class="text-muted">{{ interaction.interaction_date|date:"M d, Y H:i" }}</small>
+                        <form method="post" action="/interactions/{{ interaction.pk }}/delete/" class="d-inline">
+                            {% csrf_token %}
+                            <button type="submit" class="btn btn-sm btn-outline-danger"
+                                onclick="return confirm('Delete this interaction?')">
+                                <i class="bi bi-trash"></i>
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        {% else %}
+        <div class="text-center py-4 text-muted">
+            <i class="bi bi-chat-dots" style="font-size:2rem;"></i>
+            <p class="mt-2 mb-0">No interactions logged yet.
+                <a href="/interactions/add/{{ customer.pk }}/">Log the first one →</a>
+            </p>
+        </div>
+        {% endif %}
     </div>
 </div>
 
