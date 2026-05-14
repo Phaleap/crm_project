@@ -1,0 +1,182 @@
+[
+  {
+    "model": "tasks.task",
+    "pk": 1,
+    "fields": {
+      "title": "Follow up with Sreyleap Keo on Startup Package",
+      "description": "Check on the qualification stage progress and schedule a demo call.",
+      "customer": 2,
+      "lead": null,
+      "opportunity": null,
+      "assigned_to": 1,
+      "created_by": 1,
+      "priority": "high",
+      "status": "pending",
+      "due_date": "2026-05-20",
+      "reminder_at": "2026-05-20T09:00:00",
+      "created_at": "2026-05-14T08:00:00",
+      "updated_at": "2026-05-14T08:00:00"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 2,
+    "fields": {
+      "title": "Send contract to Ratha Noun - Hotel Management System",
+      "description": "Deal closed won. Prepare and send the final contract document.",
+      "customer": 3,
+      "lead": null,
+      "opportunity": null,
+      "assigned_to": 1,
+      "created_by": 1,
+      "priority": "high",
+      "status": "in_progress",
+      "due_date": "2026-05-16",
+      "reminder_at": "2026-05-16T10:00:00",
+      "created_at": "2026-05-14T08:10:00",
+      "updated_at": "2026-05-14T08:10:00"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 3,
+    "fields": {
+      "title": "Negotiate final pricing with Pisey Chan - Wing Bank",
+      "description": "CRM Basic Plan negotiation in final stage. Prepare discount options.",
+      "customer": 4,
+      "lead": null,
+      "opportunity": null,
+      "assigned_to": 1,
+      "created_by": 1,
+      "priority": "medium",
+      "status": "pending",
+      "due_date": "2026-05-25",
+      "reminder_at": null,
+      "created_at": "2026-05-14T08:20:00",
+      "updated_at": "2026-05-14T08:20:00"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 4,
+    "fields": {
+      "title": "Prepare proposal for Sokha Meas - Enterprise CRM",
+      "description": "Enterprise package proposal needs to be finalized before June 30.",
+      "customer": 5,
+      "lead": null,
+      "opportunity": null,
+      "assigned_to": 1,
+      "created_by": 1,
+      "priority": "medium",
+      "status": "in_progress",
+      "due_date": "2026-06-01",
+      "reminder_at": null,
+      "created_at": "2026-05-14T08:30:00",
+      "updated_at": "2026-05-14T08:30:00"
+    }
+  },
+  {
+    "model": "tasks.task",
+    "pk": 5,
+    "fields": {
+      "title": "Close lost review - Borey Pich account",
+      "description": "Review why Retail CRM deal was lost. Document feedback for future reference.",
+      "customer": 1,
+      "lead": null,
+      "opportunity": null,
+      "assigned_to": 1,
+      "created_by": 1,
+      "priority": "low",
+      "status": "done",
+      "due_date": "2026-05-10",
+      "reminder_at": null,
+      "created_at": "2026-05-14T08:40:00",
+      "updated_at": "2026-05-14T08:40:00"
+    }
+  },
+  {
+    "model": "support.supportticket",
+    "pk": 1,
+    "fields": {
+      "ticket_number": "TKT-A1B2C3D4",
+      "customer": 1,
+      "issue_type": "complaint",
+      "subject": "Cannot access online portal after contract ended",
+      "description": "Borey Pich reported that their team lost access to the CRM portal after the Retail CRM deal was closed lost. Requesting a grace period.",
+      "priority": "high",
+      "status": "open",
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-05-13T09:00:00",
+      "updated_at": "2026-05-13T09:00:00"
+    }
+  },
+  {
+    "model": "support.supportticket",
+    "pk": 2,
+    "fields": {
+      "ticket_number": "TKT-E5F6G7H8",
+      "customer": 2,
+      "issue_type": "inquiry",
+      "subject": "Questions about Startup Package features",
+      "description": "Sreyleap Keo wants a detailed breakdown of what is included in the Startup Package before moving to the proposal stage.",
+      "priority": "medium",
+      "status": "in_progress",
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-05-13T10:30:00",
+      "updated_at": "2026-05-13T10:30:00"
+    }
+  },
+  {
+    "model": "support.supportticket",
+    "pk": 3,
+    "fields": {
+      "ticket_number": "TKT-I9J0K1L2",
+      "customer": 3,
+      "issue_type": "technical",
+      "subject": "Hotel Management System integration issue",
+      "description": "Ratha Noun reports that the system integration with their existing hotel software is failing. Error occurs during data sync.",
+      "priority": "urgent",
+      "status": "in_progress",
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-05-14T07:00:00",
+      "updated_at": "2026-05-14T07:00:00"
+    }
+  },
+  {
+    "model": "support.supportticket",
+    "pk": 4,
+    "fields": {
+      "ticket_number": "TKT-M3N4O5P6",
+      "customer": 4,
+      "issue_type": "billing",
+      "subject": "Invoice discrepancy for CRM Basic Plan",
+      "description": "Pisey Chan from Wing Bank noticed the invoice amount does not match the negotiated price. Requesting clarification and correction.",
+      "priority": "high",
+      "status": "open",
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-05-14T08:00:00",
+      "updated_at": "2026-05-14T08:00:00"
+    }
+  },
+  {
+    "model": "support.supportticket",
+    "pk": 5,
+    "fields": {
+      "ticket_number": "TKT-Q7R8S9T0",
+      "customer": 5,
+      "issue_type": "inquiry",
+      "subject": "Enterprise CRM onboarding timeline",
+      "description": "Sokha Meas is asking about the expected onboarding schedule and training sessions for the Enterprise CRM Package.",
+      "priority": "medium",
+      "status": "resolved",
+      "assigned_to": 1,
+      "created_by": 1,
+      "created_at": "2026-05-12T14:00:00",
+      "updated_at": "2026-05-14T09:00:00"
+    }
+  }
+]
