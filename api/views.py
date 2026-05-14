@@ -4,8 +4,9 @@ from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
 from customers.models import Customer
 from leads.models import Lead
+from opportunities.models import Opportunity
 from accounts.models import User
-from .serializers import CustomerSerializer, LeadSerializer, UserSerializer
+from .serializers import CustomerSerializer, LeadSerializer, OpportunitySerializer, UserSerializer
 
 # ── Summary endpoint ──────────────────────────────────────
 @api_view(['GET'])
@@ -18,6 +19,9 @@ def api_summary(request):
         'new_leads': Lead.objects.filter(status='new').count(),
         'hot_leads': Lead.objects.filter(rating='hot').count(),
         'converted_leads': Lead.objects.filter(status='converted').count(),
+        'total_opportunities': Opportunity.objects.count(),
+        'closed_won': Opportunity.objects.filter(stage='closed_won').count(),
+        'closed_lost': Opportunity.objects.filter(stage='closed_lost').count(),
     })
 
 # ── Customer API ──────────────────────────────────────────
@@ -50,6 +54,22 @@ class LeadListCreateAPI(generics.ListCreateAPIView):
 class LeadDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
+    permission_classes = [IsAuthenticated]
+
+# ── Opportunity API ───────────────────────────────────────
+class OpportunityListCreateAPI(generics.ListCreateAPIView):
+    queryset = Opportunity.objects.all().order_by('-created_at')
+    serializer_class = OpportunitySerializer
+    permission_classes = [IsAuthenticated]
+    filter_backends = [filters.SearchFilter]
+    search_fields = ['title', 'customer__full_name']
+
+    def perform_create(self, serializer):
+        serializer.save(assigned_to=self.request.user)
+
+class OpportunityDetailAPI(generics.RetrieveUpdateDestroyAPIView):
+    queryset = Opportunity.objects.all()
+    serializer_class = OpportunitySerializer
     permission_classes = [IsAuthenticated]
 
 # ── User API ──────────────────────────────────────────────
