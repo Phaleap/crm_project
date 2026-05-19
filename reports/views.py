@@ -16,3 +16,7 @@ def dashboard(request):
         'recent_leads': Lead.objects.order_by('-created_at')[:5],
     }
     return render(request, 'dashboard.html', context)
+
+@login_required
+def api_explorer(request):
+    return render(request, 'api_explorer.html')
