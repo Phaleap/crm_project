@@ -27,7 +27,12 @@ INSTALLED_APPS = [
     'accounts',
     'customers',
     'leads',
-    'reports', 
+    'reports',
+    'api',  
+    'opportunities',
+    'interactions',
+    'tasks',
+    'support',
 
     # CRM Apps (we'll add these step by step)
     # 'accounts',

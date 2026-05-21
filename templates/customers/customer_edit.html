@@ -1,0 +1,321 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>Edit Customer - CRM</title>
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+    />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css"
+      rel="stylesheet"
+    />
+    <style>
+      body {
+        background-color: #f0f2f5;
+      }
+      .sidebar {
+        min-height: 100vh;
+        background: linear-gradient(180deg, #1a3c5e 0%, #2d6a9f 100%);
+        width: 240px;
+        position: fixed;
+        padding-top: 20px;
+      }
+      .sidebar .brand {
+        color: white;
+        font-size: 1.3rem;
+        font-weight: 700;
+        padding: 0 20px 20px;
+        border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+      }
+      .sidebar a {
+        color: rgba(255, 255, 255, 0.8);
+        text-decoration: none;
+        display: block;
+        padding: 12px 20px;
+        transition: all 0.2s;
+      }
+      .sidebar a:hover,
+      .sidebar a.active {
+        background: rgba(255, 255, 255, 0.15);
+        color: white;
+      }
+      .sidebar a i {
+        margin-right: 10px;
+      }
+      .main-content {
+        margin-left: 240px;
+        padding: 30px;
+      }
+      .form-card {
+        background: white;
+        border-radius: 12px;
+        padding: 30px;
+        box-shadow: 0 2px 10px rgba(0, 0, 0, 0.06);
+      }
+      .form-control,
+      .form-select {
+        border-radius: 8px;
+        padding: 10px 14px;
+      }
+      .form-control:focus,
+      .form-select:focus {
+        border-color: #2d6a9f;
+        box-shadow: 0 0 0 3px rgba(45, 106, 159, 0.15);
+      }
+      .section-title {
+        font-size: 0.85rem;
+        font-weight: 600;
+        text-transform: uppercase;
+        letter-spacing: 0.5px;
+        color: #6c757d;
+        margin-bottom: 15px;
+        padding-bottom: 8px;
+        border-bottom: 2px solid #f0f2f5;
+      }
+    </style>
+  </head>
+  <body>
+    <div class="sidebar">
+      <div class="brand"><i class="bi bi-diagram-3"></i> CRM System</div>
+      <div class="mt-3">
+        <a href="/dashboard/"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="/customers/" class="active"
+          ><i class="bi bi-people"></i> Customers</a
+        >
+        <a href="/leads/"><i class="bi bi-funnel"></i> Leads</a>
+        <a href="/opportunities/"><i class="bi bi-trophy"></i> Opportunities</a>
+        <a href="/interactions/"
+          ><i class="bi bi-chat-dots"></i> Interactions</a
+        >
+        <a href="/tasks/"><i class="bi bi-check2-square"></i> Tasks</a>
+        <a href="/support/"><i class="bi bi-headset"></i> Support</a>
+      
+        <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
+        <div
+          style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0"
+        ></div>
+        <a href="/accounts/logout/"
+          ><i class="bi bi-box-arrow-left"></i> Logout</a
+        >
+      </div>
+    </div>
+
+    <div class="main-content">
+      <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+          <h5 class="mb-0 fw-bold">
+            <i class="bi bi-pencil text-warning me-2"></i>Edit Customer
+          </h5>
+          <small class="text-muted">Updating: {{ customer.full_name }}</small>
+        </div>
+        <a
+          href="/customers/{{ customer.pk }}/"
+          class="btn btn-outline-secondary rounded-pill"
+        >
+          <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+      </div>
+
+      <div class="form-card">
+        <form method="post">
+          {% csrf_token %}
+
+          <div class="section-title">Personal Information</div>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold"
+                >Full Name <span class="text-danger">*</span></label
+              >
+              <input
+                type="text"
+                name="full_name"
+                class="form-control"
+                value="{{ customer.full_name }}"
+                required
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Email</label>
+              <input
+                type="email"
+                name="email"
+                class="form-control"
+                value="{{ customer.email|default:'' }}"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Phone</label>
+              <input
+                type="text"
+                name="phone"
+                class="form-control"
+                value="{{ customer.phone }}"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Job Title</label>
+              <input
+                type="text"
+                name="job_title"
+                class="form-control"
+                value="{{ customer.job_title }}"
+              />
+            </div>
+          </div>
+
+          <div class="section-title">Company Information</div>
+          <div class="row g-3 mb-4">
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Company</label>
+              <input
+                type="text"
+                name="company"
+                class="form-control"
+                value="{{ customer.company }}"
+              />
+            </div>
+            <div class="col-md-6">
+              <label class="form-label fw-semibold">Industry</label>
+              <input
+                type="text"
+                name="industry"
+                class="form-control"
+                value="{{ customer.industry }}"
+              />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Segment</label>
+              <select name="segment" class="form-select">
+                <option value="">-- Select --</option>
+                <option
+                  value="enterprise"
+                  {%
+                  if
+                  customer.segment=""
+                  ="enterprise"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Enterprise
+                </option>
+                <option
+                  value="smb"
+                  {%
+                  if
+                  customer.segment=""
+                  ="smb"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  SMB
+                </option>
+                <option
+                  value="startup"
+                  {%
+                  if
+                  customer.segment=""
+                  ="startup"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Startup
+                </option>
+                <option
+                  value="individual"
+                  {%
+                  if
+                  customer.segment=""
+                  ="individual"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Individual
+                </option>
+              </select>
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">City</label>
+              <input
+                type="text"
+                name="city"
+                class="form-control"
+                value="{{ customer.city }}"
+              />
+            </div>
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Country</label>
+              <input
+                type="text"
+                name="country"
+                class="form-control"
+                value="{{ customer.country }}"
+              />
+            </div>
+          </div>
+
+          <div class="section-title">Status</div>
+          <div class="row g-3 mb-4">
+            <div class="col-md-4">
+              <label class="form-label fw-semibold">Status</label>
+              <select name="status" class="form-select">
+                <option
+                  value="active"
+                  {%
+                  if
+                  customer.status=""
+                  ="active"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Active
+                </option>
+                <option
+                  value="inactive"
+                  {%
+                  if
+                  customer.status=""
+                  ="inactive"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Inactive
+                </option>
+                <option
+                  value="blocked"
+                  {%
+                  if
+                  customer.status=""
+                  ="blocked"
+                  %}selected{%
+                  endif
+                  %}
+                >
+                  Blocked
+                </option>
+              </select>
+            </div>
+          </div>
+
+          <div class="d-flex gap-2">
+            <button type="submit" class="btn btn-warning px-4">
+              <i class="bi bi-check-lg me-1"></i> Update Customer
+            </button>
+            <a
+              href="/customers/{{ customer.pk }}/"
+              class="btn btn-outline-secondary px-4"
+              >Cancel</a
+            >
+          </div>
+        </form>
+      </div>
+    </div>
+  </body>
+</html>

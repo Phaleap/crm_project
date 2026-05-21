@@ -1,0 +1,140 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Edit Opportunity - CRM</title>
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
+    <style>
+        body { background-color: #f0f2f5; }
+        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #1a3c5e 0%, #2d6a9f 100%); width: 240px; position: fixed; padding-top: 20px; }
+        .sidebar .brand { color: white; font-size: 1.3rem; font-weight: 700; padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
+        .sidebar a { color: rgba(255,255,255,0.8); text-decoration: none; display: block; padding: 12px 20px; transition: all 0.2s; }
+        .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.15); color: white; }
+        .sidebar a i { margin-right: 10px; }
+        .main-content { margin-left: 240px; padding: 30px; }
+        .form-card { background: white; border-radius: 12px; padding: 30px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); }
+        .form-control, .form-select { border-radius: 8px; padding: 10px 14px; }
+        .section-title { font-size: 0.85rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.5px; color: #6c757d; margin-bottom: 15px; padding-bottom: 8px; border-bottom: 2px solid #f0f2f5; }
+    </style>
+</head>
+<body>
+
+<div class="sidebar">
+    <div class="brand"><i class="bi bi-diagram-3"></i> CRM System</div>
+    <div class="mt-3">
+        <a href="/dashboard/"><i class="bi bi-speedometer2"></i> Dashboard</a>
+        <a href="/customers/"><i class="bi bi-people"></i> Customers</a>
+        <a href="/leads/"><i class="bi bi-funnel"></i> Leads</a>
+        <a href="/opportunities/" class="active"><i class="bi bi-trophy"></i> Opportunities</a>
+        <a href="/interactions/"><i class="bi bi-chat-dots"></i> Interactions</a>
+        <a href="/tasks/"><i class="bi bi-check2-square"></i> Tasks</a>
+        <a href="/support/"><i class="bi bi-headset"></i> Support</a>
+       
+        <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
+        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;"></div>
+        <a href="/accounts/logout/"><i class="bi bi-box-arrow-left"></i> Logout</a>
+    </div>
+</div>
+
+<div class="main-content">
+    <div class="d-flex justify-content-between align-items-center mb-4">
+        <div>
+            <h5 class="mb-0 fw-bold"><i class="bi bi-pencil text-warning me-2"></i>Edit Opportunity</h5>
+            <small class="text-muted">Updating: {{ opportunity.title }}</small>
+        </div>
+        <a href="/opportunities/{{ opportunity.pk }}/" class="btn btn-outline-secondary rounded-pill">
+            <i class="bi bi-arrow-left me-1"></i> Back
+        </a>
+    </div>
+
+    <div class="form-card">
+        <form method="post">
+            {% csrf_token %}
+            {% if form.non_field_errors %}
+            <div class="alert alert-danger">
+                {{ form.non_field_errors }}
+            </div>
+            {% endif %}
+
+            <div class="section-title">Basic Info</div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-8">
+                    <label class="form-label fw-semibold">Title <span class="text-danger">*</span></label>
+                    <input type="text" name="title" class="form-control" value="{{ form.title.value|default:'' }}" required>
+                    {% if form.title.errors %}<div class="text-danger small mt-1">{{ form.title.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Stage</label>
+                    <select name="stage" class="form-select">
+                        <option value="prospecting" {% if form.stage.value == 'prospecting' %}selected{% endif %}>Prospecting</option>
+                        <option value="qualification" {% if form.stage.value == 'qualification' %}selected{% endif %}>Qualification</option>
+                        <option value="proposal" {% if form.stage.value == 'proposal' %}selected{% endif %}>Proposal</option>
+                        <option value="negotiation" {% if form.stage.value == 'negotiation' %}selected{% endif %}>Negotiation</option>
+                        <option value="closed_won" {% if form.stage.value == 'closed_won' %}selected{% endif %}>Closed Won</option>
+                        <option value="closed_lost" {% if form.stage.value == 'closed_lost' %}selected{% endif %}>Closed Lost</option>
+                    </select>
+                    {% if form.stage.errors %}<div class="text-danger small mt-1">{{ form.stage.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Customer</label>
+                    <select name="customer" class="form-select">
+                        <option value="">-- Select Customer --</option>
+                        {% for c in form.fields.customer.queryset %}
+                        <option value="{{ c.pk }}" {% if form.customer.value|stringformat:"s" == c.pk|stringformat:"s" %}selected{% endif %}>{{ c.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if form.customer.errors %}<div class="text-danger small mt-1">{{ form.customer.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-6">
+                    <label class="form-label fw-semibold">Lead</label>
+                    <select name="lead" class="form-select">
+                        <option value="">-- Select Lead --</option>
+                        {% for l in form.fields.lead.queryset %}
+                        <option value="{{ l.pk }}" {% if form.lead.value|stringformat:"s" == l.pk|stringformat:"s" %}selected{% endif %}>{{ l.full_name }}</option>
+                        {% endfor %}
+                    </select>
+                    {% if form.lead.errors %}<div class="text-danger small mt-1">{{ form.lead.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="section-title">Deal Details</div>
+            <div class="row g-3 mb-4">
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Value ($)</label>
+                    <input type="number" name="value" class="form-control" value="{{ form.value.value|default:'' }}" step="0.01">
+                    {% if form.value.errors %}<div class="text-danger small mt-1">{{ form.value.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Probability (%)</label>
+                    <input type="number" name="probability" class="form-control" value="{{ form.probability.value|default:'0' }}" min="0" max="100">
+                    {% if form.probability.errors %}<div class="text-danger small mt-1">{{ form.probability.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-4">
+                    <label class="form-label fw-semibold">Expected Close Date</label>
+                    <input type="date" name="expected_close_date" class="form-control" value="{{ form.expected_close_date.value|default:'' }}">
+                    {% if form.expected_close_date.errors %}<div class="text-danger small mt-1">{{ form.expected_close_date.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label fw-semibold">Loss Reason</label>
+                    <input type="text" name="loss_reason" class="form-control" value="{{ form.loss_reason.value|default:'' }}">
+                    {% if form.loss_reason.errors %}<div class="text-danger small mt-1">{{ form.loss_reason.errors }}</div>{% endif %}
+                </div>
+                <div class="col-md-12">
+                    <label class="form-label fw-semibold">Notes</label>
+                    <textarea name="notes" class="form-control" rows="3">{{ form.notes.value|default:'' }}</textarea>
+                    {% if form.notes.errors %}<div class="text-danger small mt-1">{{ form.notes.errors }}</div>{% endif %}
+                </div>
+            </div>
+
+            <div class="d-flex gap-2">
+                <button type="submit" class="btn btn-warning px-4">
+                    <i class="bi bi-check-lg me-1"></i> Update Opportunity
+                </button>
+                <a href="/opportunities/{{ opportunity.pk }}/" class="btn btn-outline-secondary px-4">Cancel</a>
+            </div>
+        </form>
+    </div>
+</div>
+</body>
+</html>
