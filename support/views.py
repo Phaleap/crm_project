@@ -2,11 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from accounts.permissions import service_required
 from .models import SupportTicket, TicketComment
 from .forms import SupportTicketForm, TicketCommentForm
 
 
 @login_required
+@service_required
 def ticket_list(request):
     tickets = SupportTicket.objects.select_related('customer', 'assigned_to')
 
@@ -27,7 +29,7 @@ def ticket_list(request):
         tickets = tickets.filter(
             Q(subject__icontains=query) |
             Q(ticket_number__icontains=query) |
-            Q(customer__name__icontains=query)
+            Q(customer__full_name__icontains=query)
         )
 
     context = {
@@ -46,6 +48,7 @@ def ticket_list(request):
 
 
 @login_required
+@service_required
 def ticket_detail(request, pk):
     ticket = get_object_or_404(SupportTicket, pk=pk)
     comments = ticket.comments.select_related('author')
@@ -70,6 +73,7 @@ def ticket_detail(request, pk):
 
 
 @login_required
+@service_required
 def ticket_add(request):
     if request.method == 'POST':
         form = SupportTicketForm(request.POST)
@@ -85,6 +89,7 @@ def ticket_add(request):
 
 
 @login_required
+@service_required
 def ticket_edit(request, pk):
     ticket = get_object_or_404(SupportTicket, pk=pk)
     if request.method == 'POST':
@@ -99,6 +104,7 @@ def ticket_edit(request, pk):
 
 
 @login_required
+@service_required
 def ticket_delete(request, pk):
     ticket = get_object_or_404(SupportTicket, pk=pk)
     if request.method == 'POST':
@@ -109,6 +115,7 @@ def ticket_delete(request, pk):
 
 
 @login_required
+@service_required
 def ticket_update_status(request, pk):
     ticket = get_object_or_404(SupportTicket, pk=pk)
     if request.method == 'POST':

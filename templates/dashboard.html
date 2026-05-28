@@ -7,218 +7,249 @@
     <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
     <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
     <style>
-        body { background-color: #f0f2f5; }
+        :root {
+            --sidebar: #12324a;
+            --sidebar-2: #1f5b76;
+            --bg: #f4f7fb;
+            --ink: #172033;
+            --muted: #697586;
+            --line: #dbe4ee;
+        }
+        body { background: var(--bg); color: var(--ink); }
         .sidebar {
             min-height: 100vh;
-            background: linear-gradient(180deg, #1a3c5e 0%, #2d6a9f 100%);
-            width: 240px;
+            width: 250px;
             position: fixed;
-            padding-top: 20px;
+            background: linear-gradient(180deg, var(--sidebar), var(--sidebar-2));
+            padding: 18px 14px;
         }
-        .sidebar .brand {
-            color: white;
-            font-size: 1.3rem;
-            font-weight: 700;
-            padding: 0 20px 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
+        .brand {
+            color: #fff;
+            font-size: 1.25rem;
+            font-weight: 800;
+            padding: 8px 10px 18px;
+            border-bottom: 1px solid rgba(255,255,255,.14);
+        }
+        .side-label {
+            color: rgba(255,255,255,.58);
+            font-size: .72rem;
+            font-weight: 800;
+            letter-spacing: .08em;
+            text-transform: uppercase;
+            margin: 18px 10px 8px;
         }
         .sidebar a {
-            color: rgba(255,255,255,0.8);
+            color: rgba(255,255,255,.84);
             text-decoration: none;
-            display: block;
-            padding: 12px 20px;
-            transition: all 0.2s;
+            display: flex;
+            gap: 10px;
+            align-items: center;
+            padding: 10px 12px;
+            border-radius: 8px;
+            font-weight: 650;
         }
-        .sidebar a:hover, .sidebar a.active {
-            background: rgba(255,255,255,0.15);
-            color: white;
-        }
-        .sidebar a i { margin-right: 10px; }
-        .main-content { margin-left: 240px; padding: 30px; }
-        .stat-card {
-            border-radius: 12px;
-            border: none;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
-            transition: transform 0.2s;
-        }
-        .stat-card:hover { transform: translateY(-3px); }
-        .stat-icon {
-            width: 55px; height: 55px;
-            border-radius: 12px;
-            display: flex; align-items: center; justify-content: center;
-            font-size: 1.5rem;
+        .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,.16); color: #fff; }
+        .sidebar i { width: 20px; text-align: center; }
+        .main-content { margin-left: 250px; padding: 28px; }
+        .topbar, .panel, .stat-card {
+            background: #fff;
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            box-shadow: 0 10px 26px rgba(18,50,74,.07);
         }
         .topbar {
-            background: white;
-            border-radius: 12px;
-            padding: 15px 25px;
-            margin-bottom: 25px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+            padding: 18px 22px;
+            margin-bottom: 22px;
             display: flex;
             justify-content: space-between;
+            gap: 16px;
             align-items: center;
+        }
+        .role-pill { border-radius: 999px; padding: 8px 13px; font-weight: 800; }
+        .stat-card { padding: 20px; min-height: 132px; }
+        .stat-icon {
+            width: 48px;
+            height: 48px;
+            border-radius: 8px;
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.35rem;
+        }
+        .panel { margin-top: 22px; }
+        .panel-header { padding: 18px 20px; border-bottom: 1px solid var(--line); }
+        .panel-body { padding: 18px 20px; }
+        .quick-action {
+            border: 1px solid var(--line);
+            border-radius: 8px;
+            color: inherit;
+            text-decoration: none;
+            padding: 16px;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            min-height: 76px;
+            background: #fff;
+        }
+        .quick-action:hover { border-color: #8bb9e8; box-shadow: 0 8px 18px rgba(31,91,118,.12); }
+        .table td, .table th { vertical-align: middle; }
+        @media (max-width: 900px) {
+            .sidebar { position: static; width: 100%; min-height: auto; }
+            .main-content { margin-left: 0; padding: 18px; }
+            .topbar { display: block; }
         }
     </style>
 </head>
 <body>
-
-<!-- Sidebar -->
-<div class="sidebar">
+<aside class="sidebar">
     <div class="brand"><i class="bi bi-diagram-3"></i> CRM System</div>
-    <div class="mt-3">
-        <a href="/dashboard/"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="/customers/" class="active"><i class="bi bi-people"></i> Customers</a>
-        <a href="/leads/"><i class="bi bi-funnel"></i> Leads</a>
-        <a href="/opportunities/"><i class="bi bi-trophy"></i> Opportunities</a>
-        <a href="/interactions/"><i class="bi bi-chat-dots"></i> Interactions</a>
-        <a href="/tasks/"><i class="bi bi-check2-square"></i> Tasks</a>
-        <a href="/support/"><i class="bi bi-headset"></i> Support</a>
-        <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;"></div>
-        <a href="/accounts/logout/"><i class="bi bi-box-arrow-left"></i> Logout</a>
-    </div>
-</div>
 
-<!-- Main Content -->
-<div class="main-content">
+    <div class="side-label">Main</div>
+    <a href="/dashboard/" class="active"><i class="bi bi-speedometer2"></i> Dashboard</a>
+    <a href="/customers/"><i class="bi bi-people"></i> Customers</a>
+    <a href="/interactions/"><i class="bi bi-chat-dots"></i> Interactions</a>
 
-    <!-- Top Bar -->
-    <div class="topbar">
+    {% if request.user.role == 'admin' or request.user.is_superuser or request.user.role == 'sales_staff' %}
+    <div class="side-label">Sales</div>
+    <a href="/leads/"><i class="bi bi-funnel"></i> Leads</a>
+    <a href="/opportunities/"><i class="bi bi-trophy"></i> Opportunities</a>
+    <a href="/tasks/"><i class="bi bi-check2-square"></i> Follow-ups</a>
+    {% endif %}
+
+    {% if request.user.role == 'admin' or request.user.is_superuser or request.user.role == 'customer_service' %}
+    <div class="side-label">Service</div>
+    <a href="/support/"><i class="bi bi-headset"></i> Support Tickets</a>
+    {% endif %}
+
+    {% if request.user.role == 'admin' or request.user.is_superuser %}
+    <div class="side-label">Admin</div>
+    <a href="/admin/"><i class="bi bi-person-gear"></i> User Admin</a>
+    <a href="/api/api-explorer/"><i class="bi bi-braces"></i> API Explorer</a>
+    {% endif %}
+
+    <div class="side-label">Account</div>
+    <a href="/accounts/logout/"><i class="bi bi-box-arrow-left"></i> Logout</a>
+</aside>
+
+<main class="main-content">
+    {% if messages %}
+        {% for message in messages %}
+            <div class="alert alert-{{ message.tags }} alert-dismissible fade show" role="alert">
+                {{ message }}
+                <button type="button" class="btn-close" data-bs-dismiss="alert"></button>
+            </div>
+        {% endfor %}
+    {% endif %}
+
+    <section class="topbar">
         <div>
-            <h5 class="mb-0 fw-bold">Dashboard Overview</h5>
-            <small class="text-muted">Welcome back, {{ request.user.get_full_name|default:request.user.username }}!</small>
+            <h4 class="mb-1 fw-bold">Dashboard Overview</h4>
+            <div class="text-muted">Welcome back, {{ request.user.get_full_name|default:request.user.username }}.</div>
         </div>
-        <div>
-            <span class="badge bg-primary rounded-pill px-3 py-2">
-                <i class="bi bi-person-circle me-1"></i> {{ request.user.role|default:"Admin"|title }}
-            </span>
-        </div>
-    </div>
+        <span class="badge text-bg-primary role-pill">
+            <i class="bi bi-person-circle me-1"></i>{{ role_label }}
+        </span>
+    </section>
 
-    <!-- Stat Cards -->
-    <div class="row g-4 mb-4">
-        <div class="col-md-3">
-            <div class="card stat-card p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Total Customers</div>
-                        <div class="fs-2 fw-bold">{{ total_customers }}</div>
-                        <div class="text-success small"><i class="bi bi-check-circle"></i> {{ active_customers }} active</div>
-                    </div>
-                    <div class="stat-icon bg-primary bg-opacity-10 text-primary">
-                        <i class="bi bi-people-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Total Leads</div>
-                        <div class="fs-2 fw-bold">{{ total_leads }}</div>
-                        <div class="text-warning small"><i class="bi bi-clock"></i> {{ new_leads }} new</div>
-                    </div>
-                    <div class="stat-icon bg-warning bg-opacity-10 text-warning">
-                        <i class="bi bi-funnel-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Hot Leads</div>
-                        <div class="fs-2 fw-bold">{{ hot_leads }}</div>
-                        <div class="text-danger small"><i class="bi bi-fire"></i> High priority</div>
-                    </div>
-                    <div class="stat-icon bg-danger bg-opacity-10 text-danger">
-                        <i class="bi bi-lightning-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-md-3">
-            <div class="card stat-card p-4">
-                <div class="d-flex justify-content-between align-items-center">
-                    <div>
-                        <div class="text-muted small">Converted Leads</div>
-                        <div class="fs-2 fw-bold">{{ converted_leads }}</div>
-                        <div class="text-success small"><i class="bi bi-arrow-up"></i> Closed deals</div>
-                    </div>
-                    <div class="stat-icon bg-success bg-opacity-10 text-success">
-                        <i class="bi bi-trophy-fill"></i>
-                    </div>
-                </div>
-            </div>
-        </div>
+    {% if request.user.role == 'admin' or request.user.is_superuser %}
+    <div class="row g-3">
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Users</div><div class="fs-2 fw-bold">{{ total_users }}</div><div class="stat-icon bg-primary-subtle text-primary"><i class="bi bi-person-badge"></i></div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Customers</div><div class="fs-2 fw-bold">{{ total_customers }}</div><div class="text-success small">{{ active_customers }} active</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Pipeline Value</div><div class="fs-2 fw-bold">${{ pipeline_value }}</div><div class="text-muted small">{{ open_opportunities }} open deals</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Open Tickets</div><div class="fs-2 fw-bold">{{ open_tickets }}</div><div class="text-danger small">{{ urgent_tickets }} urgent</div></div></div>
     </div>
+    {% elif request.user.role == 'sales_staff' %}
+    <div class="row g-3">
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Leads</div><div class="fs-2 fw-bold">{{ total_leads }}</div><div class="text-warning small">{{ new_leads }} new</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Hot Leads</div><div class="fs-2 fw-bold">{{ hot_leads }}</div><div class="text-danger small">High priority</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Open Deals</div><div class="fs-2 fw-bold">{{ open_opportunities }}</div><div class="text-success small">{{ closed_won }} won</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Pending Follow-ups</div><div class="fs-2 fw-bold">{{ pending_tasks }}</div><div class="text-muted small">{{ overdue_tasks }} overdue</div></div></div>
+    </div>
+    {% else %}
+    <div class="row g-3">
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Customers</div><div class="fs-2 fw-bold">{{ total_customers }}</div><div class="text-success small">{{ active_customers }} active</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Open Tickets</div><div class="fs-2 fw-bold">{{ open_tickets }}</div><div class="text-danger small">{{ urgent_tickets }} urgent</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Resolved Tickets</div><div class="fs-2 fw-bold">{{ resolved_tickets }}</div><div class="text-success small">Service handled</div></div></div>
+        <div class="col-md-3"><div class="stat-card"><div class="text-muted">Interactions</div><div class="fs-2 fw-bold">{{ total_interactions }}</div><div class="text-muted small">Customer history</div></div></div>
+    </div>
+    {% endif %}
 
-    <!-- Recent Tables -->
-    <div class="row g-4">
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
-                    <h6 class="fw-bold"><i class="bi bi-people text-primary me-2"></i>Recent Customers</h6>
-                </div>
-                <div class="card-body px-4">
-                    {% if recent_customers %}
-                    <table class="table table-hover table-sm">
-                        <thead class="text-muted small">
-                            <tr><th>Name</th><th>Company</th><th>Status</th></tr>
-                        </thead>
+    <section class="panel">
+        <div class="panel-header">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-lightning-charge text-primary me-2"></i>Role Actions</h5>
+        </div>
+        <div class="panel-body">
+            <div class="row g-3">
+                {% if request.user.role == 'admin' or request.user.is_superuser %}
+                <div class="col-md-4"><a class="quick-action" href="/admin/"><span><strong>Manage Users</strong><br><small class="text-muted">Create staff and assign roles</small></span><i class="bi bi-arrow-right"></i></a></div>
+                <div class="col-md-4"><a class="quick-action" href="/dashboard/api-explorer/"><span><strong>Open API Explorer</strong><br><small class="text-muted">Review CRM REST endpoints</small></span><i class="bi bi-arrow-right"></i></a></div>
+                <div class="col-md-4"><a class="quick-action" href="/customers/"><span><strong>Manage Customers</strong><br><small class="text-muted">View CRM customer records</small></span><i class="bi bi-arrow-right"></i></a></div>
+                {% elif request.user.role == 'sales_staff' %}
+                <div class="col-md-4"><a class="quick-action" href="/leads/add/"><span><strong>Add Lead</strong><br><small class="text-muted">Capture a potential customer</small></span><i class="bi bi-arrow-right"></i></a></div>
+                <div class="col-md-4"><a class="quick-action" href="/opportunities/add/"><span><strong>Create Opportunity</strong><br><small class="text-muted">Move sales into the pipeline</small></span><i class="bi bi-arrow-right"></i></a></div>
+                <div class="col-md-4"><a class="quick-action" href="/tasks/add/"><span><strong>Schedule Follow-up</strong><br><small class="text-muted">Track next actions</small></span><i class="bi bi-arrow-right"></i></a></div>
+                {% else %}
+                <div class="col-md-4"><a class="quick-action" href="/support/add/"><span><strong>Create Ticket</strong><br><small class="text-muted">Record a complaint or request</small></span><i class="bi bi-arrow-right"></i></a></div>
+                <div class="col-md-4"><a class="quick-action" href="/support/"><span><strong>Track Issues</strong><br><small class="text-muted">Update ticket status</small></span><i class="bi bi-arrow-right"></i></a></div>
+                <div class="col-md-4"><a class="quick-action" href="/customers/"><span><strong>Find Customer</strong><br><small class="text-muted">Search customer records</small></span><i class="bi bi-arrow-right"></i></a></div>
+                {% endif %}
+            </div>
+        </div>
+    </section>
+
+    <section class="panel">
+        <div class="panel-header">
+            <h5 class="mb-0 fw-bold"><i class="bi bi-clock-history text-success me-2"></i>Recent CRM Activity</h5>
+        </div>
+        <div class="panel-body">
+            <div class="row g-4">
+                <div class="col-lg-6">
+                    <h6 class="fw-bold">Recent Customers</h6>
+                    <table class="table table-sm">
+                        <thead><tr><th>Name</th><th>Company</th><th>Status</th></tr></thead>
                         <tbody>
-                            {% for c in recent_customers %}
-                            <tr>
-                                <td>{{ c.full_name }}</td>
-                                <td>{{ c.company|default:"-" }}</td>
-                                <td>
-                                    <span class="badge {% if c.status == 'active' %}bg-success{% else %}bg-secondary{% endif %}">
-                                        {{ c.status }}
-                                    </span>
-                                </td>
-                            </tr>
-                            {% endfor %}
+                        {% for c in recent_customers %}
+                            <tr><td>{{ c.full_name }}</td><td>{{ c.company|default:"-" }}</td><td><span class="badge text-bg-light">{{ c.status }}</span></td></tr>
+                        {% empty %}
+                            <tr><td colspan="3" class="text-muted">No customers yet.</td></tr>
+                        {% endfor %}
                         </tbody>
                     </table>
-                    {% else %}
-                    <p class="text-muted text-center py-3">No customers yet. <a href="/admin/customers/customer/add/">Add one →</a></p>
-                    {% endif %}
                 </div>
-            </div>
-        </div>
 
-        <div class="col-md-6">
-            <div class="card border-0 shadow-sm rounded-3">
-                <div class="card-header bg-white border-0 pt-4 pb-0 px-4">
-                    <h6 class="fw-bold"><i class="bi bi-funnel text-warning me-2"></i>Recent Leads</h6>
-                </div>
-                <div class="card-body px-4">
-                    {% if recent_leads %}
-                    <table class="table table-hover table-sm">
-                        <thead class="text-muted small">
-                            <tr><th>Name</th><th>Source</th><th>Rating</th></tr>
-                        </thead>
+                {% if request.user.role == 'customer_service' %}
+                <div class="col-lg-6">
+                    <h6 class="fw-bold">Recent Tickets</h6>
+                    <table class="table table-sm">
+                        <thead><tr><th>Ticket</th><th>Customer</th><th>Status</th></tr></thead>
                         <tbody>
-                            {% for l in recent_leads %}
-                            <tr>
-                                <td>{{ l.full_name }}</td>
-                                <td>{{ l.get_source_display|default:"-" }}</td>
-                                <td>{{ l.get_rating_display|default:"-" }}</td>
-                            </tr>
-                            {% endfor %}
+                        {% for ticket in recent_tickets %}
+                            <tr><td>{{ ticket.ticket_number }}</td><td>{{ ticket.customer.full_name }}</td><td><span class="badge text-bg-light">{{ ticket.status }}</span></td></tr>
+                        {% empty %}
+                            <tr><td colspan="3" class="text-muted">No tickets yet.</td></tr>
+                        {% endfor %}
                         </tbody>
                     </table>
-                    {% else %}
-                    <p class="text-muted text-center py-3">No leads yet. <a href="/admin/leads/lead/add/">Add one →</a></p>
-                    {% endif %}
                 </div>
+                {% else %}
+                <div class="col-lg-6">
+                    <h6 class="fw-bold">Recent Leads</h6>
+                    <table class="table table-sm">
+                        <thead><tr><th>Name</th><th>Company</th><th>Rating</th></tr></thead>
+                        <tbody>
+                        {% for lead in recent_leads %}
+                            <tr><td>{{ lead.full_name }}</td><td>{{ lead.company|default:"-" }}</td><td><span class="badge text-bg-light">{{ lead.rating }}</span></td></tr>
+                        {% empty %}
+                            <tr><td colspan="3" class="text-muted">No leads yet.</td></tr>
+                        {% endfor %}
+                        </tbody>
+                    </table>
+                </div>
+                {% endif %}
             </div>
         </div>
-    </div>
-
-</div>
+    </section>
+</main>
 
 <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js"></script>
 </body>

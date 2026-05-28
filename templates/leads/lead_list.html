@@ -49,9 +49,6 @@
             <small class="text-muted">{{ total }} lead{{ total|pluralize }} found</small>
         </div>
         <div class="d-flex gap-2">
-            <a href="/api/leads/" target="_blank" class="btn btn-api rounded-pill px-3">
-                <i class="bi bi-braces me-1"></i> View API
-            </a>
             <a href="/leads/add/" class="btn btn-warning rounded-pill px-4 text-white">
                 <i class="bi bi-plus-lg me-1"></i> Add Lead
             </a>
@@ -134,9 +131,6 @@
                     </td>
                     <td>{{ lead.assigned_to|default:"-" }}</td>
                     <td>
-                        <a href="/api/leads/{{ lead.pk }}/" target="_blank" class="btn btn-sm btn-json" title="View JSON">
-                            <i class="bi bi-braces"></i>
-                        </a>
                         <a href="/leads/{{ lead.pk }}/" class="btn btn-sm btn-outline-primary">
                             <i class="bi bi-eye"></i>
                         </a>

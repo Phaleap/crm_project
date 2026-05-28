@@ -1,11 +1,13 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from accounts.permissions import sales_or_service_required
 from .models import Interaction
 from customers.models import Customer
 
 
 @login_required
+@sales_or_service_required
 def interaction_list(request):
     query = request.GET.get('q', '')
     type_filter = request.GET.get('type', '')
@@ -30,6 +32,7 @@ def interaction_list(request):
 
 
 @login_required
+@sales_or_service_required
 def interaction_add(request, customer_pk):
     customer = get_object_or_404(Customer, pk=customer_pk)
 
@@ -51,6 +54,7 @@ def interaction_add(request, customer_pk):
 
 
 @login_required
+@sales_or_service_required
 def interaction_delete(request, pk):
     interaction = get_object_or_404(Interaction, pk=pk)
     customer_pk = interaction.customer.pk

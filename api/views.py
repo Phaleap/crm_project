@@ -12,6 +12,10 @@ from interactions.models import Interaction
 from tasks.models import Task
 from support.models import SupportTicket, TicketComment
 from accounts.models import User
+from accounts.permissions import (
+    IsAdminRole, IsSalesRole, IsServiceRole, IsSalesOrServiceRole,
+    admin_required
+)
 
 from .serializers import (
     CustomerSerializer, LeadSerializer, OpportunitySerializer,
@@ -47,7 +51,7 @@ def api_summary(request):
 class CustomerListCreateAPI(generics.ListCreateAPIView):
     queryset = Customer.objects.all().order_by('-created_at')
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesOrServiceRole]
     filter_backends = [filters.SearchFilter]
     search_fields = ['full_name', 'email', 'company']
 
@@ -58,14 +62,14 @@ class CustomerListCreateAPI(generics.ListCreateAPIView):
 class CustomerDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Customer.objects.all()
     serializer_class = CustomerSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesOrServiceRole]
 
 
 # ── Leads ─────────────────────────────────────────────────
 class LeadListCreateAPI(generics.ListCreateAPIView):
     queryset = Lead.objects.all().order_by('-created_at')
     serializer_class = LeadSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesRole]
     filter_backends = [filters.SearchFilter]
     search_fields = ['full_name', 'email', 'company']
 
@@ -76,14 +80,14 @@ class LeadListCreateAPI(generics.ListCreateAPIView):
 class LeadDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Lead.objects.all()
     serializer_class = LeadSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesRole]
 
 
 # ── Opportunities ─────────────────────────────────────────
 class OpportunityListCreateAPI(generics.ListCreateAPIView):
     queryset = Opportunity.objects.all().order_by('-created_at')
     serializer_class = OpportunitySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesRole]
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'customer__full_name']
 
@@ -94,14 +98,14 @@ class OpportunityListCreateAPI(generics.ListCreateAPIView):
 class OpportunityDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Opportunity.objects.all()
     serializer_class = OpportunitySerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesRole]
 
 
 # ── Interactions ──────────────────────────────────────────
 class InteractionListCreateAPI(generics.ListCreateAPIView):
     queryset = Interaction.objects.all().order_by('-interaction_date')
     serializer_class = InteractionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesOrServiceRole]
     filter_backends = [filters.SearchFilter]
     search_fields = ['subject', 'customer__full_name']
 
@@ -112,14 +116,14 @@ class InteractionListCreateAPI(generics.ListCreateAPIView):
 class InteractionDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Interaction.objects.all()
     serializer_class = InteractionSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesOrServiceRole]
 
 
 # ── Tasks ─────────────────────────────────────────────────
 class TaskListCreateAPI(generics.ListCreateAPIView):
     queryset = Task.objects.all().order_by('-created_at')
     serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesRole]
     filter_backends = [filters.SearchFilter]
     search_fields = ['title', 'customer__full_name']
 
@@ -130,14 +134,14 @@ class TaskListCreateAPI(generics.ListCreateAPIView):
 class TaskDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = Task.objects.all()
     serializer_class = TaskSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsSalesRole]
 
 
 # ── Support Tickets ───────────────────────────────────────
 class SupportTicketListCreateAPI(generics.ListCreateAPIView):
     queryset = SupportTicket.objects.all().order_by('-created_at')
     serializer_class = SupportTicketSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsServiceRole]
     filter_backends = [filters.SearchFilter]
     search_fields = ['subject', 'ticket_number', 'customer__full_name']
 
@@ -148,12 +152,12 @@ class SupportTicketListCreateAPI(generics.ListCreateAPIView):
 class SupportTicketDetailAPI(generics.RetrieveUpdateDestroyAPIView):
     queryset = SupportTicket.objects.all()
     serializer_class = SupportTicketSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsServiceRole]
 
 
 class TicketCommentListCreateAPI(generics.ListCreateAPIView):
     serializer_class = TicketCommentSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsServiceRole]
 
     def get_queryset(self):
         return TicketComment.objects.filter(ticket_id=self.kwargs['ticket_pk'])
@@ -166,7 +170,7 @@ class TicketCommentListCreateAPI(generics.ListCreateAPIView):
 class UserListAPI(generics.ListAPIView):
     queryset = User.objects.all()
     serializer_class = UserSerializer
-    permission_classes = [IsAuthenticated]
+    permission_classes = [IsAdminRole]
 
 
 # ══════════════════════════════════════════════════════════
@@ -174,6 +178,7 @@ class UserListAPI(generics.ListAPIView):
 # ══════════════════════════════════════════════════════════
 
 @login_required
+@admin_required
 def api_explorer(request):
     return render(request, 'api_explorer/api_explorer.html')
 

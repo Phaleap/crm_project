@@ -3,601 +3,469 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>API Explorer — CRM System</title>
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:wght@300;400;500&display=swap" rel="stylesheet">
+<title>API Admin Dashboard - CRM System</title>
+<link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
+<link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
 <style>
   :root {
-    --bg: #f0f2f8;
-    --card-bg: #ffffff;
-    --blue: #2563eb;
-    --blue-dark: #1d4ed8;
-    --blue-light: #3b82f6;
-    --accent: #06b6d4;
-    --text: #0f172a;
-    --muted: #64748b;
-    --border: #e2e8f0;
-    --section-bg: #ffffff;
-    --badge: #eff6ff;
-    --badge-text: #2563eb;
-    --shadow: 0 4px 24px rgba(37,99,235,0.08);
-    --shadow-card: 0 2px 12px rgba(37,99,235,0.10);
+    --sidebar: #0f1b2d;
+    --sidebar-soft: #17253a;
+    --accent: #14b8a6;
+    --bg: #f4f7fb;
+    --text: #1f2937;
+    --muted: #6b7280;
+    --border: #dde5ef;
   }
 
-  * { box-sizing: border-box; margin: 0; padding: 0; }
+  * { box-sizing: border-box; }
 
   body {
-    font-family: 'DM Sans', sans-serif;
+    min-height: 100vh;
+    margin: 0;
     background: var(--bg);
     color: var(--text);
+    font-family: "Segoe UI", Arial, sans-serif;
+  }
+
+  .layout {
+    display: flex;
     min-height: 100vh;
-    padding: 32px 24px 60px;
   }
 
-  /* Header */
-  .header {
-    max-width: 1100px;
-    margin: 0 auto 36px;
-    background: var(--card-bg);
-    border-radius: 20px;
-    padding: 28px 36px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-  }
-
-  .header-left {
-    display: flex;
-    align-items: center;
-    gap: 16px;
-  }
-
-  .header-icon {
-    width: 48px; height: 48px;
-    background: linear-gradient(135deg, var(--blue), var(--accent));
-    border-radius: 14px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 22px;
-    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
-  }
-
-  .header-title {
-    font-family: 'Syne', sans-serif;
-    font-size: 26px;
-    font-weight: 800;
-    color: var(--text);
-    letter-spacing: -0.5px;
-  }
-
-  .header-sub {
-    font-size: 13px;
-    color: var(--muted);
-    margin-top: 2px;
-  }
-
-  .header-btn {
-    background: linear-gradient(135deg, var(--blue), var(--blue-dark));
+  .sidebar {
+    position: fixed;
+    inset: 0 auto 0 0;
+    width: 260px;
+    overflow-y: auto;
+    background: var(--sidebar);
     color: #fff;
-    border: none;
-    border-radius: 12px;
-    padding: 12px 22px;
-    font-family: 'DM Sans', sans-serif;
-    font-size: 14px;
-    font-weight: 500;
-    cursor: pointer;
+    padding: 18px 14px;
+  }
+
+  .brand {
     display: flex;
     align-items: center;
-    gap: 8px;
+    gap: 10px;
+    padding: 8px 10px 18px;
+    margin-bottom: 8px;
+    border-bottom: 1px solid rgba(255,255,255,.1);
+    font-size: 18px;
+    font-weight: 700;
+  }
+
+  .brand-icon {
+    width: 34px;
+    height: 34px;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 8px;
+    background: linear-gradient(135deg, #14b8a6, #2563eb);
+  }
+
+  .nav-label {
+    margin: 20px 10px 8px;
+    color: #8ea0b8;
+    font-size: 12px;
+    font-weight: 700;
+    letter-spacing: .08em;
+    text-transform: uppercase;
+  }
+
+  .side-link {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-height: 42px;
+    padding: 10px 12px;
+    color: #d4deec;
     text-decoration: none;
-    box-shadow: 0 4px 16px rgba(37,99,235,0.3);
-    transition: transform 0.15s, box-shadow 0.15s;
+    border-radius: 8px;
+    font-weight: 600;
+    font-size: 14px;
   }
 
-  .header-btn:hover {
-    transform: translateY(-1px);
-    box-shadow: 0 6px 20px rgba(37,99,235,0.4);
+  .side-link:hover,
+  .side-link.active {
+    background: linear-gradient(90deg, var(--accent), #0ea5e9);
+    color: #fff;
   }
 
-  /* Sections */
-  .wrapper { max-width: 1100px; margin: 0 auto; display: flex; flex-direction: column; gap: 28px; }
-
-  .section {
-    background: var(--section-bg);
-    border-radius: 20px;
-    padding: 28px 32px;
-    box-shadow: var(--shadow);
-    border: 1px solid var(--border);
-    animation: fadeUp 0.5s ease both;
+  .side-link i {
+    width: 20px;
+    text-align: center;
   }
 
-  .section:nth-child(2) { animation-delay: 0.1s; }
-  .section:nth-child(3) { animation-delay: 0.2s; }
-  .section:nth-child(4) { animation-delay: 0.3s; }
-
-  @keyframes fadeUp {
-    from { opacity: 0; transform: translateY(18px); }
-    to { opacity: 1; transform: translateY(0); }
+  .main {
+    width: 100%;
+    margin-left: 260px;
+    padding: 0 28px 34px;
   }
 
-  .section-header {
+  .topbar {
+    position: sticky;
+    top: 0;
+    z-index: 5;
+    min-height: 76px;
+    margin: 0 -28px 24px;
+    padding: 16px 28px;
+    background: rgba(255,255,255,.94);
+    border-bottom: 1px solid var(--border);
     display: flex;
     align-items: center;
     justify-content: space-between;
+    backdrop-filter: blur(10px);
+  }
+
+  .topbar h1 {
+    margin: 0;
+    font-size: 24px;
+    font-weight: 800;
+  }
+
+  .topbar p {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 14px;
+  }
+
+  .base-url {
+    padding: 8px 13px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    background: #f8fafc;
+    color: #111827;
+    font-size: 13px;
+    font-weight: 700;
+  }
+
+  .panel {
+    background: #fff;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    box-shadow: 0 10px 28px rgba(15,27,45,.08);
     margin-bottom: 22px;
   }
 
-  .section-title-row {
+  .panel-header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 16px;
+    padding: 18px 20px;
+    border-bottom: 1px solid var(--border);
+  }
+
+  .panel-title {
     display: flex;
     align-items: center;
     gap: 10px;
-  }
-
-  .section-icon {
-    font-size: 20px;
-  }
-
-  .section-title {
-    font-family: 'Syne', sans-serif;
+    margin: 0;
     font-size: 18px;
-    font-weight: 700;
-    color: var(--text);
+    font-weight: 800;
   }
 
-  .section-badge {
-    background: var(--badge);
-    color: var(--badge-text);
-    border-radius: 20px;
-    padding: 4px 12px;
+  .endpoint-badge {
+    padding: 6px 10px;
+    border-radius: 999px;
+    background: #e6fffb;
+    color: #0f766e;
+    font-size: 12px;
+    font-weight: 800;
+    white-space: nowrap;
+  }
+
+  .panel-body {
+    padding: 20px;
+  }
+
+  .quick-form {
+    display: grid;
+    grid-template-columns: repeat(4, minmax(0, 1fr));
+    gap: 14px;
+    align-items: end;
+    margin-bottom: 20px;
+  }
+
+  .form-label {
+    color: #374151;
+    font-weight: 700;
     font-size: 13px;
-    font-weight: 600;
   }
 
-  /* Nested API Grid */
-  .nested-grid {
-    display: grid;
-    grid-template-columns: repeat(5, 1fr);
-    gap: 14px;
-  }
-
-  @media (max-width: 900px) { .nested-grid { grid-template-columns: repeat(3, 1fr); } }
-  @media (max-width: 600px) { .nested-grid { grid-template-columns: repeat(2, 1fr); } }
-
-  .api-card {
-    background: linear-gradient(145deg, var(--blue) 0%, var(--blue-dark) 100%);
-    border-radius: 16px;
-    padding: 20px 18px 18px;
-    text-decoration: none;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 14px rgba(37,99,235,0.25);
-    cursor: pointer;
-  }
-
-  .api-card::before {
-    content: '';
-    position: absolute;
-    top: -30px; right: -30px;
-    width: 90px; height: 90px;
-    background: rgba(255,255,255,0.07);
-    border-radius: 50%;
-  }
-
-  .api-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(37,99,235,0.35);
-  }
-
-  .api-card-icon {
-    width: 34px; height: 34px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-    backdrop-filter: blur(4px);
-  }
-
-  .api-card-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
-    font-weight: 700;
-    line-height: 1.3;
-  }
-
-  .api-card-sub {
-    font-size: 11px;
-    opacity: 0.7;
-    font-weight: 400;
-  }
-
-  /* Customer CRUD grid */
-  .crud-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
-    gap: 14px;
-  }
-
-  @media (max-width: 700px) { .crud-grid { grid-template-columns: 1fr; } }
-
-  .crud-card {
-    background: linear-gradient(145deg, #1e40af 0%, #1d4ed8 100%);
-    border-radius: 16px;
-    padding: 20px 18px 18px;
-    text-decoration: none;
-    color: #fff;
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-    position: relative;
-    overflow: hidden;
-    transition: transform 0.2s, box-shadow 0.2s;
-    box-shadow: 0 4px 14px rgba(30,64,175,0.28);
-    cursor: pointer;
-  }
-
-  .crud-card::before {
-    content: '';
-    position: absolute;
-    bottom: -20px; right: -20px;
-    width: 80px; height: 80px;
-    background: rgba(255,255,255,0.06);
-    border-radius: 50%;
-  }
-
-  .crud-card:hover {
-    transform: translateY(-3px);
-    box-shadow: 0 10px 28px rgba(30,64,175,0.38);
-  }
-
-  .crud-card.post { background: linear-gradient(145deg, #2563eb, #1d4ed8); }
-  .crud-card.put  { background: linear-gradient(145deg, #0284c7, #0369a1); }
-  .crud-card.del  { background: linear-gradient(145deg, #1e3a8a, #1e40af); }
-
-  .crud-card-icon {
-    width: 34px; height: 34px;
-    background: rgba(255,255,255,0.15);
-    border-radius: 10px;
-    display: flex; align-items: center; justify-content: center;
-    font-size: 16px;
-  }
-
-  .crud-method-badge {
-    display: inline-block;
-    background: rgba(255,255,255,0.18);
+  .form-control,
+  .form-select {
+    border-color: var(--border);
     border-radius: 6px;
-    padding: 2px 8px;
-    font-size: 10px;
-    font-weight: 700;
-    letter-spacing: 0.5px;
-    width: fit-content;
   }
 
-  .crud-card-name {
-    font-family: 'Syne', sans-serif;
-    font-size: 14px;
+  .btn-action {
+    min-height: 38px;
+    border: 0;
+    border-radius: 6px;
     font-weight: 700;
-    line-height: 1.3;
   }
 
-  .crud-card-sub {
-    font-size: 11px;
-    opacity: 0.7;
+  .method-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 12px;
   }
 
-  /* Model group label */
-  .model-group {
-    margin-bottom: 6px;
-  }
-  .model-group-label {
-    font-family: 'Syne', sans-serif;
-    font-size: 13px;
-    font-weight: 700;
-    color: var(--muted);
-    text-transform: uppercase;
-    letter-spacing: 0.8px;
-    margin-bottom: 10px;
+  .method-card {
     display: flex;
     align-items: center;
-    gap: 8px;
+    justify-content: space-between;
+    gap: 12px;
+    min-height: 82px;
+    padding: 14px 16px;
+    border: 1px solid var(--border);
+    border-radius: 8px;
+    color: inherit;
+    text-decoration: none;
+    background: #fff;
   }
-  .model-group-label::after {
-    content: '';
-    flex: 1;
-    height: 1px;
-    background: var(--border);
+
+  .method-card:hover {
+    border-color: #9cc3ff;
+    box-shadow: 0 8px 18px rgba(37,99,235,.12);
+  }
+
+  .method-title {
+    margin: 0;
+    font-weight: 800;
+  }
+
+  .method-sub {
+    margin: 2px 0 0;
+    color: var(--muted);
+    font-size: 13px;
+  }
+
+  .method {
+    min-width: 68px;
+    padding: 5px 8px;
+    border-radius: 6px;
+    color: #fff;
+    text-align: center;
+    font-size: 12px;
+    font-weight: 800;
+  }
+
+  .get { background: #0ea5e9; }
+  .post { background: #16a34a; }
+  .put { background: #f59e0b; }
+  .delete { background: #dc2626; }
+
+  .table {
+    margin: 0;
+    border: 1px solid var(--border);
+  }
+
+  .table th {
+    background: #f8fafc;
+    color: #111827;
+    font-size: 14px;
+  }
+
+  .table td,
+  .table th {
+    vertical-align: middle;
+  }
+
+  .small-action {
+    min-width: 72px;
+    font-weight: 700;
+  }
+
+  @media (max-width: 960px) {
+    .sidebar {
+      position: static;
+      width: 100%;
+      max-height: none;
+    }
+
+    .layout {
+      display: block;
+    }
+
+    .main {
+      margin-left: 0;
+      padding: 0 16px 28px;
+    }
+
+    .topbar {
+      margin: 0 -16px 18px;
+      padding: 14px 16px;
+      align-items: flex-start;
+      flex-direction: column;
+    }
+
+    .quick-form,
+    .method-grid {
+      grid-template-columns: 1fr;
+    }
   }
 </style>
 </head>
 <body>
-
-<!-- Header -->
-<div class="header">
-  <div class="header-left">
-    <div class="header-icon">⚡</div>
-    <div>
-      <div class="header-title">&lt;/&gt; API Explorer</div>
-      <div class="header-sub">Manage all CRM APIs in one place</div>
+<div class="layout">
+  <aside class="sidebar">
+    <div class="brand">
+      <span class="brand-icon"><i class="bi bi-braces"></i></span>
+      <span>CRM API Admin</span>
     </div>
-  </div>
-  <a href="/api/" class="header-btn">
-    🌐 API System
-  </a>
+
+    <div class="nav-label">System</div>
+    <a class="side-link active" href="/api/api-explorer/"><i class="bi bi-speedometer2"></i> API Dashboard</a>
+    <a class="side-link" href="/dashboard/"><i class="bi bi-house-door"></i> CRM Dashboard</a>
+    <a class="side-link" href="/api/summary/" target="_blank"><i class="bi bi-graph-up"></i> Summary API</a>
+
+    <div class="nav-label">CRM CRUD</div>
+    <a class="side-link" href="#customers"><i class="bi bi-people"></i> Customers CRUD</a>
+    <a class="side-link" href="#leads"><i class="bi bi-funnel"></i> Leads CRUD</a>
+    <a class="side-link" href="#opportunities"><i class="bi bi-trophy"></i> Opportunities CRUD</a>
+    <a class="side-link" href="#interactions"><i class="bi bi-chat-dots"></i> Interactions CRUD</a>
+    <a class="side-link" href="#tasks"><i class="bi bi-check2-square"></i> Tasks CRUD</a>
+    <a class="side-link" href="#tickets"><i class="bi bi-headset"></i> Tickets CRUD</a>
+
+    <div class="nav-label">Preview</div>
+    <a class="side-link" href="/api/users/" target="_blank"><i class="bi bi-person-badge"></i> Users API</a>
+    <a class="side-link" href="/api/tickets/1/comments/" target="_blank"><i class="bi bi-chat-left-text"></i> Ticket Comments</a>
+  </aside>
+
+  <main class="main">
+    <header class="topbar">
+      <div>
+        <h1>API Admin Dashboard</h1>
+        <p>Manage CRM data through Django REST API CRUD endpoints</p>
+      </div>
+      <div class="base-url">http://127.0.0.1:8000/api/</div>
+    </header>
+
+    <section class="panel" id="customers">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-people-fill text-primary"></i> Manage Customers</h2>
+        <span class="endpoint-badge">/customers/ API</span>
+      </div>
+      <div class="panel-body">
+        <div class="quick-form">
+          <div>
+            <label class="form-label">Full Name</label>
+            <input class="form-control" type="text" placeholder="Customer name">
+          </div>
+          <div>
+            <label class="form-label">Email</label>
+            <input class="form-control" type="email" placeholder="customer@email.com">
+          </div>
+          <div>
+            <label class="form-label">Company</label>
+            <input class="form-control" type="text" placeholder="Company">
+          </div>
+          <div class="d-flex gap-2">
+            <a class="btn btn-success btn-action flex-fill" href="/api/PostAPICustomer/"><i class="bi bi-plus-circle me-1"></i> Save</a>
+            <button class="btn btn-outline-secondary btn-action" type="reset">Reset</button>
+          </div>
+        </div>
+
+        <table class="table table-bordered">
+          <thead>
+            <tr><th>Name</th><th>Email</th><th>Company</th><th style="width: 190px;">Actions</th></tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td>Customer List</td>
+              <td colspan="2">Open API endpoint to view records</td>
+              <td>
+                <a class="btn btn-sm btn-info small-action" href="/api/customers/" target="_blank">View</a>
+                <a class="btn btn-sm btn-warning small-action" href="/api/PutAPICustomer/">Edit</a>
+              </td>
+            </tr>
+            <tr>
+              <td>Delete Customer</td>
+              <td colspan="2">Remove customer by ID</td>
+              <td><a class="btn btn-sm btn-danger small-action" href="/api/DeleteAPICustomer/">Delete</a></td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </section>
+
+    <section class="panel" id="leads">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-funnel-fill text-warning"></i> Manage Leads</h2>
+        <span class="endpoint-badge">/leads/ API</span>
+      </div>
+      <div class="panel-body">
+        <div class="method-grid">
+          <a class="method-card" href="/api/leads/" target="_blank"><div><p class="method-title">Lead List</p><p class="method-sub">View all leads</p></div><span class="method get">GET</span></a>
+          <a class="method-card" href="/api/PostAPILead/"><div><p class="method-title">Create Lead</p><p class="method-sub">Add a new lead</p></div><span class="method post">POST</span></a>
+          <a class="method-card" href="/api/PutAPILead/"><div><p class="method-title">Update Lead</p><p class="method-sub">Edit lead by ID</p></div><span class="method put">PUT</span></a>
+          <a class="method-card" href="/api/DeleteAPILead/"><div><p class="method-title">Delete Lead</p><p class="method-sub">Remove lead by ID</p></div><span class="method delete">DELETE</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="opportunities">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-trophy-fill text-success"></i> Manage Opportunities</h2>
+        <span class="endpoint-badge">/opportunities/ API</span>
+      </div>
+      <div class="panel-body">
+        <div class="method-grid">
+          <a class="method-card" href="/api/opportunities/" target="_blank"><div><p class="method-title">Opportunity List</p><p class="method-sub">View all opportunities</p></div><span class="method get">GET</span></a>
+          <a class="method-card" href="/api/PostAPIOpportunity/"><div><p class="method-title">Create Opportunity</p><p class="method-sub">Add opportunity data</p></div><span class="method post">POST</span></a>
+          <a class="method-card" href="/api/PutAPIOpportunity/"><div><p class="method-title">Update Opportunity</p><p class="method-sub">Edit opportunity by ID</p></div><span class="method put">PUT</span></a>
+          <a class="method-card" href="/api/DeleteAPIOpportunity/"><div><p class="method-title">Delete Opportunity</p><p class="method-sub">Remove opportunity by ID</p></div><span class="method delete">DELETE</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="interactions">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-chat-dots-fill text-info"></i> Manage Interactions</h2>
+        <span class="endpoint-badge">/interactions/ API</span>
+      </div>
+      <div class="panel-body">
+        <div class="method-grid">
+          <a class="method-card" href="/api/interactions/" target="_blank"><div><p class="method-title">Interaction List</p><p class="method-sub">View all interactions</p></div><span class="method get">GET</span></a>
+          <a class="method-card" href="/api/PostAPIInteraction/"><div><p class="method-title">Create Interaction</p><p class="method-sub">Log contact history</p></div><span class="method post">POST</span></a>
+          <a class="method-card" href="/api/PutAPIInteraction/"><div><p class="method-title">Update Interaction</p><p class="method-sub">Edit interaction by ID</p></div><span class="method put">PUT</span></a>
+          <a class="method-card" href="/api/DeleteAPIInteraction/"><div><p class="method-title">Delete Interaction</p><p class="method-sub">Remove interaction by ID</p></div><span class="method delete">DELETE</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="tasks">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-check2-square text-primary"></i> Manage Tasks</h2>
+        <span class="endpoint-badge">/tasks/ API</span>
+      </div>
+      <div class="panel-body">
+        <div class="method-grid">
+          <a class="method-card" href="/api/tasks/" target="_blank"><div><p class="method-title">Task List</p><p class="method-sub">View all tasks</p></div><span class="method get">GET</span></a>
+          <a class="method-card" href="/api/PostAPITask/"><div><p class="method-title">Create Task</p><p class="method-sub">Add follow-up task</p></div><span class="method post">POST</span></a>
+          <a class="method-card" href="/api/PutAPITask/"><div><p class="method-title">Update Task</p><p class="method-sub">Edit task by ID</p></div><span class="method put">PUT</span></a>
+          <a class="method-card" href="/api/DeleteAPITask/"><div><p class="method-title">Delete Task</p><p class="method-sub">Remove task by ID</p></div><span class="method delete">DELETE</span></a>
+        </div>
+      </div>
+    </section>
+
+    <section class="panel" id="tickets">
+      <div class="panel-header">
+        <h2 class="panel-title"><i class="bi bi-headset text-danger"></i> Manage Support Tickets</h2>
+        <span class="endpoint-badge">/tickets/ API</span>
+      </div>
+      <div class="panel-body">
+        <div class="method-grid">
+          <a class="method-card" href="/api/tickets/" target="_blank"><div><p class="method-title">Ticket List</p><p class="method-sub">View all tickets</p></div><span class="method get">GET</span></a>
+          <a class="method-card" href="/api/PostAPITicket/"><div><p class="method-title">Create Ticket</p><p class="method-sub">Add support ticket</p></div><span class="method post">POST</span></a>
+          <a class="method-card" href="/api/PutAPITicket/"><div><p class="method-title">Update Ticket</p><p class="method-sub">Edit ticket by ID</p></div><span class="method put">PUT</span></a>
+          <a class="method-card" href="/api/DeleteAPITicket/"><div><p class="method-title">Delete Ticket</p><p class="method-sub">Remove ticket by ID</p></div><span class="method delete">DELETE</span></a>
+        </div>
+      </div>
+    </section>
+  </main>
 </div>
-
-<div class="wrapper">
-
-  <!-- Nested APIs -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-title-row">
-        <span class="section-icon">🔗</span>
-        <span class="section-title">Nested APIs</span>
-      </div>
-      <span class="section-badge">8</span>
-    </div>
-    <div class="nested-grid">
-      <a href="/api/customers/" class="api-card" target="_blank">
-        <div class="api-card-icon">👥</div>
-        <div>
-          <div class="api-card-name">Customers</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/leads/" class="api-card" target="_blank">
-        <div class="api-card-icon">🎯</div>
-        <div>
-          <div class="api-card-name">Leads</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/opportunities/" class="api-card" target="_blank">
-        <div class="api-card-icon">💼</div>
-        <div>
-          <div class="api-card-name">Opportunities</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/interactions/" class="api-card" target="_blank">
-        <div class="api-card-icon">💬</div>
-        <div>
-          <div class="api-card-name">Interactions</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/tasks/" class="api-card" target="_blank">
-        <div class="api-card-icon">✅</div>
-        <div>
-          <div class="api-card-name">Tasks</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/tickets/" class="api-card" target="_blank">
-        <div class="api-card-icon">🎫</div>
-        <div>
-          <div class="api-card-name">Support Tickets</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/tickets/1/comments/" class="api-card" target="_blank">
-        <div class="api-card-icon">🗨️</div>
-        <div>
-          <div class="api-card-name">Ticket Comments</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-      <a href="/api/users/" class="api-card" target="_blank">
-        <div class="api-card-icon">👤</div>
-        <div>
-          <div class="api-card-name">Users</div>
-          <div class="api-card-sub">Open API endpoint</div>
-        </div>
-      </a>
-    </div>
-  </div>
-
-  <!-- Customer APIs -->
-  <div class="section">
-    <div class="section-header">
-      <div class="section-title-row">
-        <span class="section-icon">🛠️</span>
-        <span class="section-title">Customer APIs</span>
-      </div>
-      <span class="section-badge">18</span>
-    </div>
-
-    <!-- Leads -->
-    <div class="model-group">
-      <div class="model-group-label">🎯 Leads</div>
-      <div class="crud-grid" style="margin-bottom:20px;">
-        <a href="/api/PostAPILead/" class="crud-card post">
-          <div class="crud-card-icon">➕</div>
-          <span class="crud-method-badge">POST</span>
-          <div>
-            <div class="crud-card-name">Post Lead API</div>
-            <div class="crud-card-sub">Create new lead</div>
-          </div>
-        </a>
-        <a href="/api/PutAPILead/" class="crud-card put">
-          <div class="crud-card-icon">✏️</div>
-          <span class="crud-method-badge">PUT</span>
-          <div>
-            <div class="crud-card-name">Put Lead API</div>
-            <div class="crud-card-sub">Update existing lead</div>
-          </div>
-        </a>
-        <a href="/api/DeleteAPILead/" class="crud-card del">
-          <div class="crud-card-icon">🗑️</div>
-          <span class="crud-method-badge">DELETE</span>
-          <div>
-            <div class="crud-card-name">Delete Lead API</div>
-            <div class="crud-card-sub">Remove a lead</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Customers -->
-    <div class="model-group">
-      <div class="model-group-label">👥 Customers</div>
-      <div class="crud-grid" style="margin-bottom:20px;">
-        <a href="/api/PostAPICustomer/" class="crud-card post">
-          <div class="crud-card-icon">➕</div>
-          <span class="crud-method-badge">POST</span>
-          <div>
-            <div class="crud-card-name">Post Customer API</div>
-            <div class="crud-card-sub">Create new customer</div>
-          </div>
-        </a>
-        <a href="/api/PutAPICustomer/" class="crud-card put">
-          <div class="crud-card-icon">✏️</div>
-          <span class="crud-method-badge">PUT</span>
-          <div>
-            <div class="crud-card-name">Put Customer API</div>
-            <div class="crud-card-sub">Update existing customer</div>
-          </div>
-        </a>
-        <a href="/api/DeleteAPICustomer/" class="crud-card del">
-          <div class="crud-card-icon">🗑️</div>
-          <span class="crud-method-badge">DELETE</span>
-          <div>
-            <div class="crud-card-name">Delete Customer API</div>
-            <div class="crud-card-sub">Remove a customer</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Opportunities -->
-    <div class="model-group">
-      <div class="model-group-label">💼 Opportunities</div>
-      <div class="crud-grid" style="margin-bottom:20px;">
-        <a href="/api/PostAPIOpportunity/" class="crud-card post">
-          <div class="crud-card-icon">➕</div>
-          <span class="crud-method-badge">POST</span>
-          <div>
-            <div class="crud-card-name">Post Opportunity API</div>
-            <div class="crud-card-sub">Create new opportunity</div>
-          </div>
-        </a>
-        <a href="/api/PutAPIOpportunity/" class="crud-card put">
-          <div class="crud-card-icon">✏️</div>
-          <span class="crud-method-badge">PUT</span>
-          <div>
-            <div class="crud-card-name">Put Opportunity API</div>
-            <div class="crud-card-sub">Update existing opportunity</div>
-          </div>
-        </a>
-        <a href="/api/DeleteAPIOpportunity/" class="crud-card del">
-          <div class="crud-card-icon">🗑️</div>
-          <span class="crud-method-badge">DELETE</span>
-          <div>
-            <div class="crud-card-name">Delete Opportunity API</div>
-            <div class="crud-card-sub">Remove an opportunity</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Interactions -->
-    <div class="model-group">
-      <div class="model-group-label">💬 Interactions</div>
-      <div class="crud-grid" style="margin-bottom:20px;">
-        <a href="/api/PostAPIInteraction/" class="crud-card post">
-          <div class="crud-card-icon">➕</div>
-          <span class="crud-method-badge">POST</span>
-          <div>
-            <div class="crud-card-name">Post Interaction API</div>
-            <div class="crud-card-sub">Log new interaction</div>
-          </div>
-        </a>
-        <a href="/api/PutAPIInteraction/" class="crud-card put">
-          <div class="crud-card-icon">✏️</div>
-          <span class="crud-method-badge">PUT</span>
-          <div>
-            <div class="crud-card-name">Put Interaction API</div>
-            <div class="crud-card-sub">Update interaction</div>
-          </div>
-        </a>
-        <a href="/api/DeleteAPIInteraction/" class="crud-card del">
-          <div class="crud-card-icon">🗑️</div>
-          <span class="crud-method-badge">DELETE</span>
-          <div>
-            <div class="crud-card-name">Delete Interaction API</div>
-            <div class="crud-card-sub">Remove an interaction</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Tasks -->
-    <div class="model-group">
-      <div class="model-group-label">✅ Tasks</div>
-      <div class="crud-grid" style="margin-bottom:20px;">
-        <a href="/api/PostAPITask/" class="crud-card post">
-          <div class="crud-card-icon">➕</div>
-          <span class="crud-method-badge">POST</span>
-          <div>
-            <div class="crud-card-name">Post Task API</div>
-            <div class="crud-card-sub">Create new task</div>
-          </div>
-        </a>
-        <a href="/api/PutAPITask/" class="crud-card put">
-          <div class="crud-card-icon">✏️</div>
-          <span class="crud-method-badge">PUT</span>
-          <div>
-            <div class="crud-card-name">Put Task API</div>
-            <div class="crud-card-sub">Update existing task</div>
-          </div>
-        </a>
-        <a href="/api/DeleteAPITask/" class="crud-card del">
-          <div class="crud-card-icon">🗑️</div>
-          <span class="crud-method-badge">DELETE</span>
-          <div>
-            <div class="crud-card-name">Delete Task API</div>
-            <div class="crud-card-sub">Remove a task</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-    <!-- Support Tickets -->
-    <div class="model-group">
-      <div class="model-group-label">🎫 Support Tickets</div>
-      <div class="crud-grid">
-        <a href="/api/PostAPITicket/" class="crud-card post">
-          <div class="crud-card-icon">➕</div>
-          <span class="crud-method-badge">POST</span>
-          <div>
-            <div class="crud-card-name">Post Ticket API</div>
-            <div class="crud-card-sub">Create new ticket</div>
-          </div>
-        </a>
-        <a href="/api/PutAPITicket/" class="crud-card put">
-          <div class="crud-card-icon">✏️</div>
-          <span class="crud-method-badge">PUT</span>
-          <div>
-            <div class="crud-card-name">Put Ticket API</div>
-            <div class="crud-card-sub">Update existing ticket</div>
-          </div>
-        </a>
-        <a href="/api/DeleteAPITicket/" class="crud-card del">
-          <div class="crud-card-icon">🗑️</div>
-          <span class="crud-method-badge">DELETE</span>
-          <div>
-            <div class="crud-card-name">Delete Ticket API</div>
-            <div class="crud-card-sub">Remove a ticket</div>
-          </div>
-        </a>
-      </div>
-    </div>
-
-  </div>
-</div>
-
 </body>
 </html>
