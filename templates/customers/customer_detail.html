@@ -113,7 +113,7 @@
         >
         <a href="/tasks/"><i class="bi bi-check2-square"></i> Tasks</a>
         <a href="/support/"><i class="bi bi-headset"></i> Support</a>
-        
+
         <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
         <div
           style="border-top: 1px solid rgba(255, 255, 255, 0.1); margin: 20px 0"
@@ -188,9 +188,8 @@
           <div class="col-md-3">
             <div class="info-label">Location</div>
             <div class="info-value">
-              {% if customer.city or customer.country %} {{ customer.city }}{%
-              if customer.city and customer.country %}, {% endif %}{{
-              customer.country }} {% else %}—{% endif %}
+              {% if customer.city or customer.country %} {{ customer.city }} {%if customer.city and customer.country %}, {% endif %} {{
+              customer.country }} {% else %} — {% endif %}
             </div>
           </div>
           <div class="col-md-3">

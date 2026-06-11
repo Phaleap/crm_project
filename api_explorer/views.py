@@ -1,8 +1,4 @@
-
-
-from django.http import JsonResponse
-from django.shortcuts import render
-from rest_framework import generics, filters, viewsets
+from rest_framework import generics, filters
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.decorators import api_view, permission_classes
 from rest_framework.response import Response
@@ -158,6 +154,7 @@ class SupportTicketDetailAPI(generics.RetrieveUpdateDestroyAPIView):
 class TicketCommentListCreateAPI(generics.ListCreateAPIView):
     serializer_class = TicketCommentSerializer
     permission_classes = [IsAuthenticated]
+
     def get_queryset(self):
         return TicketComment.objects.filter(ticket_id=self.kwargs['ticket_pk'])
 

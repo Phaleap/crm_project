@@ -19,6 +19,5 @@ urlpatterns = [
     path('interactions/', include('interactions.urls')),
     path('tasks/', include('tasks.urls')),
     path('support/', include('support.urls')),
-    path('reports/', include('reports.urls')),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

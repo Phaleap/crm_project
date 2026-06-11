@@ -33,6 +33,7 @@ INSTALLED_APPS = [
     'interactions',
     'tasks',
     'support',
+    'api_explorer',
 
     # CRM Apps (we'll add these step by step)
     # 'accounts',

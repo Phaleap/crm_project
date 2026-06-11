@@ -81,8 +81,27 @@
       .table tbody tr:hover {
         background: #f8f9ff;
       }
-      .type-icon {
-        font-size: 1.1rem;
+      .btn-api {
+        background: #6f42c1;
+        color: white;
+        border: none;
+        font-size: 0.75rem;
+        font-weight: 600;
+        letter-spacing: 0.3px;
+      }
+      .btn-api:hover {
+        background: #5a32a3;
+        color: white;
+      }
+      .btn-json {
+        background: #6f42c1;
+        color: white;
+        border: none;
+        font-size: 0.7rem;
+      }
+      .btn-json:hover {
+        background: #5a32a3;
+        color: white;
       }
     </style>
   </head>
@@ -134,6 +153,13 @@
             <i class="bi bi-plus-lg me-1"></i> Add Interaction
           </a>
         </div>
+        <a
+          href="/api/interactions/"
+          target="_blank"
+          class="btn btn-api rounded-pill px-3"
+        >
+          <i class="bi bi-braces me-1"></i> View API
+        </a>
       </div>
 
       <!-- Filter -->
@@ -237,7 +263,7 @@
               <th>Outcome</th>
               <th>Date</th>
               <th>Logged By</th>
-              <th>Actions</th>
+              <th>Action</th>
             </tr>
           </thead>
           <tbody>
@@ -297,20 +323,18 @@
               <td>{{ interaction.user|default:"—" }}</td>
               <td>
                 <a
-                  href="/interactions/{{ interaction.pk }}/edit/"
-                  class="btn btn-sm btn-outline-primary me-1"
-                  >Edit</a
+                  href="/api/interactions/{{ interaction.pk }}/"
+                  target="_blank"
+                  class="btn btn-sm btn-json"
+                  title="View JSON"
                 >
-                <a
-                  href="/interactions/{{ interaction.pk }}/delete/"
-                  class="btn btn-sm btn-outline-danger"
-                  >Delete</a
-                >
+                  <i class="bi bi-braces"></i>
+                </a>
               </td>
             </tr>
             {% empty %}
             <tr>
-              <td colspan="8" class="text-center py-5 text-muted">
+              <td colspan="9" class="text-center py-5 text-muted">
                 <i class="bi bi-chat-dots" style="font-size: 2rem"></i>
                 <p class="mt-2">No interactions logged yet.</p>
               </td>
