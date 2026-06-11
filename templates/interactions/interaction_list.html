@@ -138,6 +138,7 @@
             >{{ total }} interaction{{ total|pluralize }} found</small
           >
         </div>
+<<<<<<< HEAD
         <div class="d-flex gap-2">
           <a
             href="/api/interactions/"
@@ -161,6 +162,9 @@
           <i class="bi bi-braces me-1"></i> View API
         </a>
       </div>
+=======
+    </div>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
 
       <!-- Filter -->
       <div class="table-card mb-4 p-3">
@@ -253,6 +257,7 @@
       <!-- Table -->
       <div class="table-card">
         <table class="table mb-0">
+<<<<<<< HEAD
           <thead>
             <tr>
               <th>#</th>
@@ -341,8 +346,68 @@
             </tr>
             {% endfor %}
           </tbody>
+=======
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Type</th>
+                    <th>Subject</th>
+                    <th>Customer</th>
+                    <th>Direction</th>
+                    <th>Outcome</th>
+                    <th>Date</th>
+                    <th>Logged By</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for interaction in interactions %}
+                <tr>
+                    <td class="text-muted">{{ forloop.counter }}</td>
+                    <td>
+                        {% if interaction.type == 'phone_call' %}<span class="badge bg-success">📞 Call</span>
+                        {% elif interaction.type == 'email' %}<span class="badge bg-info">📧 Email</span>
+                        {% elif interaction.type == 'meeting' %}<span class="badge bg-primary">🤝 Meeting</span>
+                        {% elif interaction.type == 'chat' %}<span class="badge bg-warning text-dark">💬 Chat</span>
+                        {% else %}<span class="badge bg-secondary">🏢 Site Visit</span>{% endif %}
+                    </td>
+                    <td class="fw-semibold">{{ interaction.subject }}</td>
+                    <td>
+                        <a href="/customers/{{ interaction.customer.pk }}/" class="text-decoration-none">
+                            {{ interaction.customer.full_name }}
+                        </a>
+                    </td>
+                    <td>
+                        {% if interaction.direction == 'inbound' %}
+                            <span class="badge bg-success bg-opacity-10 text-success">↙ Inbound</span>
+                        {% elif interaction.direction == 'outbound' %}
+                            <span class="badge bg-primary bg-opacity-10 text-primary">↗ Outbound</span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td>
+                        {% if interaction.outcome %}
+                            <span class="badge bg-light text-dark">{{ interaction.get_outcome_display }}</span>
+                        {% else %}—{% endif %}
+                    </td>
+                    <td class="text-muted">{{ interaction.interaction_date|date:"M d, Y H:i" }}</td>
+                    <td>{{ interaction.user|default:"—" }}</td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center py-5 text-muted">
+                        <i class="bi bi-chat-dots" style="font-size:2rem;"></i>
+                        <p class="mt-2">No interactions logged yet.</p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
         </table>
       </div>
     </div>
+<<<<<<< HEAD
   </body>
+=======
+</div>
+</body>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
 </html>

@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q, Sum
+from accounts.permissions import sales_required
 from .forms import OpportunityForm
 from .models import Opportunity
 
 @login_required
+@sales_required
 def opportunity_list(request):
     query = request.GET.get('q', '')
     stage = request.GET.get('stage', '')
@@ -33,11 +35,13 @@ def opportunity_list(request):
     return render(request, 'opportunities/opportunity_list.html', context)
 
 @login_required
+@sales_required
 def opportunity_detail(request, pk):
     opportunity = get_object_or_404(Opportunity, pk=pk)
     return render(request, 'opportunities/opportunity_detail.html', {'opportunity': opportunity})
 
 @login_required
+@sales_required
 def opportunity_add(request):
     if request.method == 'POST':
         form = OpportunityForm(request.POST)
@@ -51,6 +55,7 @@ def opportunity_add(request):
     return render(request, 'opportunities/opportunity_add.html', {'form': form})
 
 @login_required
+@sales_required
 def opportunity_edit(request, pk):
     opportunity = get_object_or_404(Opportunity, pk=pk)
     if request.method == 'POST':
@@ -66,6 +71,7 @@ def opportunity_edit(request, pk):
     })
 
 @login_required
+@sales_required
 def opportunity_delete(request, pk):
     opportunity = get_object_or_404(Opportunity, pk=pk)
     if request.method == 'POST':

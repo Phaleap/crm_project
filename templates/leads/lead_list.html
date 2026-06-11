@@ -142,6 +142,7 @@
           >
         </div>
         <div class="d-flex gap-2">
+<<<<<<< HEAD
           <a
             href="/api/leads/"
             target="_blank"
@@ -155,6 +156,11 @@
           >
             <i class="bi bi-plus-lg me-1"></i> Add Lead
           </a>
+=======
+            <a href="/leads/add/" class="btn btn-warning rounded-pill px-4 text-white">
+                <i class="bi bi-plus-lg me-1"></i> Add Lead
+            </a>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
         </div>
       </div>
 
@@ -272,6 +278,7 @@
       <!-- Table -->
       <div class="table-card">
         <table class="table mb-0">
+<<<<<<< HEAD
           <thead>
             <tr>
               <th>#</th>
@@ -348,8 +355,75 @@
             </tr>
             {% endfor %}
           </tbody>
+=======
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Name</th>
+                    <th>Company</th>
+                    <th>Source</th>
+                    <th>Status</th>
+                    <th>Rating</th>
+                    <th>Assigned To</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for lead in leads %}
+                <tr>
+                    <td class="text-muted">{{ forloop.counter }}</td>
+                    <td class="fw-semibold">{{ lead.full_name }}</td>
+                    <td>{{ lead.company|default:"-" }}</td>
+                    <td>{{ lead.get_source_display|default:"-" }}</td>
+                    <td>
+                        <span class="badge
+                            {% if lead.status == 'new' %}bg-primary
+                            {% elif lead.status == 'contacted' %}bg-info
+                            {% elif lead.status == 'qualified' %}bg-warning text-dark
+                            {% elif lead.status == 'converted' %}bg-success
+                            {% else %}bg-secondary{% endif %}">
+                            {{ lead.get_status_display }}
+                        </span>
+                    </td>
+                    <td>
+                        {% if lead.rating == 'hot' %}
+                            <span class="badge bg-danger"> Hot</span>
+                        {% elif lead.rating == 'warm' %}
+                            <span class="badge bg-warning text-dark"> Warm</span>
+                        {% elif lead.rating == 'cold' %}
+                            <span class="badge bg-info"> Cold</span>
+                        {% else %}-{% endif %}
+                    </td>
+                    <td>{{ lead.assigned_to|default:"-" }}</td>
+                    <td>
+                        <a href="/leads/{{ lead.pk }}/" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="/leads/{{ lead.pk }}/edit/" class="btn btn-sm btn-outline-warning">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="/leads/{{ lead.pk }}/delete/" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center py-5 text-muted">
+                        <i class="bi bi-funnel" style="font-size:2rem;"></i>
+                        <p class="mt-2">No leads found. <a href="/leads/add/">Add one →</a></p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
         </table>
       </div>
     </div>
+<<<<<<< HEAD
   </body>
+=======
+</div>
+</body>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
 </html>

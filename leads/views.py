@@ -1,9 +1,11 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from accounts.permissions import sales_required
 from .models import Lead
 
 @login_required
+@sales_required
 def lead_list(request):
     query = request.GET.get('q', '')
     status = request.GET.get('status', '')
@@ -32,11 +34,13 @@ def lead_list(request):
     return render(request, 'leads/lead_list.html', context)
 
 @login_required
+@sales_required
 def lead_detail(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     return render(request, 'leads/lead_detail.html', {'lead': lead})
 
 @login_required
+@sales_required
 def lead_add(request):
     if request.method == 'POST':
         Lead.objects.create(
@@ -55,6 +59,7 @@ def lead_add(request):
     return render(request, 'leads/lead_add.html')
 
 @login_required
+@sales_required
 def lead_edit(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':
@@ -72,6 +77,7 @@ def lead_edit(request, pk):
     return render(request, 'leads/lead_edit.html', {'lead': lead})
 
 @login_required
+@sales_required
 def lead_delete(request, pk):
     lead = get_object_or_404(Lead, pk=pk)
     if request.method == 'POST':

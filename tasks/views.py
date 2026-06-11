@@ -2,11 +2,13 @@ from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.db.models import Q
+from accounts.permissions import sales_required
 from .models import Task
 from .forms import TaskForm
 
 
 @login_required
+@sales_required
 def task_list(request):
     tasks = Task.objects.select_related('customer', 'lead', 'opportunity', 'assigned_to')
 
@@ -41,12 +43,14 @@ def task_list(request):
 
 
 @login_required
+@sales_required
 def task_detail(request, pk):
     task = get_object_or_404(Task, pk=pk)
     return render(request, 'tasks/task_detail.html', {'task': task})
 
 
 @login_required
+@sales_required
 def task_add(request):
     if request.method == 'POST':
         form = TaskForm(request.POST)
@@ -62,6 +66,7 @@ def task_add(request):
 
 
 @login_required
+@sales_required
 def task_edit(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == 'POST':
@@ -76,6 +81,7 @@ def task_edit(request, pk):
 
 
 @login_required
+@sales_required
 def task_delete(request, pk):
     task = get_object_or_404(Task, pk=pk)
     if request.method == 'POST':
@@ -86,6 +92,7 @@ def task_delete(request, pk):
 
 
 @login_required
+@sales_required
 def task_update_status(request, pk):
     """Quick status update via POST (e.g., from list page buttons)."""
     task = get_object_or_404(Task, pk=pk)

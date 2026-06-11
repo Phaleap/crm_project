@@ -199,6 +199,7 @@
         </div>
 
         <div class="d-flex gap-2">
+<<<<<<< HEAD
           <a
             href="/api/opportunities/"
             target="_blank"
@@ -207,6 +208,13 @@
             <i class="bi bi-braces me-1"></i>
             View API
           </a>
+=======
+            <a href="/opportunities/add/" class="btn btn-success rounded-pill px-4">
+                <i class="bi bi-plus-lg me-1"></i> Add Opportunity
+            </a>
+        </div>
+    </div>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
 
           <a
             href="/opportunities/add/"
@@ -344,6 +352,7 @@
       <!-- Table -->
       <div class="table-card">
         <table class="table mb-0">
+<<<<<<< HEAD
 
           <thead>
             <tr>
@@ -478,9 +487,75 @@
             {% endfor %}
 
           </tbody>
+=======
+            <thead>
+                <tr>
+                    <th>#</th>
+                    <th>Title</th>
+                    <th>Customer</th>
+                    <th>Stage</th>
+                    <th>Value</th>
+                    <th>Probability</th>
+                    <th>Close Date</th>
+                    <th>Action</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for opp in opportunities %}
+                <tr>
+                    <td class="text-muted">{{ forloop.counter }}</td>
+                    <td class="fw-semibold">{{ opp.title }}</td>
+                    <td>{{ opp.customer|default:"-" }}</td>
+                    <td>
+                        <span class="badge
+                            {% if opp.stage == 'prospecting' %}bg-secondary
+                            {% elif opp.stage == 'qualification' %}bg-info
+                            {% elif opp.stage == 'proposal' %}bg-primary
+                            {% elif opp.stage == 'negotiation' %}bg-warning text-dark
+                            {% elif opp.stage == 'closed_won' %}bg-success
+                            {% else %}bg-danger{% endif %}">
+                            {{ opp.get_stage_display }}
+                        </span>
+                    </td>
+                    <td>{% if opp.value %}${{ opp.value|floatformat:2 }}{% else %}-{% endif %}</td>
+                    <td>
+                        <div class="progress" style="height: 6px; width: 80px;">
+                            <div class="progress-bar bg-success" style="width: {{ opp.probability }}%"></div>
+                        </div>
+                        <small class="text-muted">{{ opp.probability }}%</small>
+                    </td>
+                    <td>{{ opp.expected_close_date|date:"M d, Y"|default:"-" }}</td>
+                    <td>
+                        <a href="/opportunities/{{ opp.pk }}/" class="btn btn-sm btn-outline-primary">
+                            <i class="bi bi-eye"></i>
+                        </a>
+                        <a href="/opportunities/{{ opp.pk }}/edit/" class="btn btn-sm btn-outline-warning">
+                            <i class="bi bi-pencil"></i>
+                        </a>
+                        <a href="/opportunities/{{ opp.pk }}/delete/" class="btn btn-sm btn-outline-danger">
+                            <i class="bi bi-trash"></i>
+                        </a>
+                    </td>
+                </tr>
+                {% empty %}
+                <tr>
+                    <td colspan="8" class="text-center py-5 text-muted">
+                        <i class="bi bi-trophy" style="font-size:2rem;"></i>
+                        <p class="mt-2">No opportunities yet. <a href="/opportunities/add/">Add one →</a></p>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
         </table>
       </div>
 
     </div>
+<<<<<<< HEAD
   </body>
 </html>
+=======
+</div>
+</body>
+</html>
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2

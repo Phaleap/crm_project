@@ -1,10 +1,12 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from django.contrib.auth.decorators import login_required
 from django.db.models import Q
+from accounts.permissions import sales_or_service_required
 from .models import Customer
 
 
 @login_required
+@sales_or_service_required
 def customer_list(request):
     query = request.GET.get('q', '')
     status = request.GET.get('status', '')
@@ -34,6 +36,7 @@ def customer_list(request):
 
 
 @login_required
+@sales_or_service_required
 def customer_detail(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     interactions = customer.interactions.select_related('user').order_by('-interaction_date')
@@ -44,6 +47,7 @@ def customer_detail(request, pk):
 
 
 @login_required
+@sales_or_service_required
 def customer_add(request):
     if request.method == 'POST':
         Customer.objects.create(
@@ -65,6 +69,7 @@ def customer_add(request):
 
 
 @login_required
+@sales_or_service_required
 def customer_edit(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == 'POST':
@@ -84,6 +89,7 @@ def customer_edit(request, pk):
 
 
 @login_required
+@sales_or_service_required
 def customer_delete(request, pk):
     customer = get_object_or_404(Customer, pk=pk)
     if request.method == 'POST':
