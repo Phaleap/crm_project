@@ -1,138 +1,89 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <title>Interactions - CRM</title>
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" rel="stylesheet">
-    <link href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.0/font/bootstrap-icons.css" rel="stylesheet">
-    <style>
-        body { background-color: #f0f2f5; }
-        .sidebar { min-height: 100vh; background: linear-gradient(180deg, #1a3c5e 0%, #2d6a9f 100%); width: 240px; position: fixed; padding-top: 20px; }
-        .sidebar .brand { color: white; font-size: 1.3rem; font-weight: 700; padding: 0 20px 20px; border-bottom: 1px solid rgba(255,255,255,0.1); }
-        .sidebar a { color: rgba(255,255,255,0.8); text-decoration: none; display: block; padding: 12px 20px; transition: all 0.2s; }
-        .sidebar a:hover, .sidebar a.active { background: rgba(255,255,255,0.15); color: white; }
-        .sidebar a i { margin-right: 10px; }
-        .main-content { margin-left: 240px; padding: 30px; }
-        .topbar { background: white; border-radius: 12px; padding: 15px 25px; margin-bottom: 25px; box-shadow: 0 2px 10px rgba(0,0,0,0.05); display: flex; justify-content: space-between; align-items: center; }
-        .table-card { background: white; border-radius: 12px; box-shadow: 0 2px 10px rgba(0,0,0,0.06); overflow: hidden; }
-        .table thead th { background: #f8f9fa; font-size: 0.8rem; text-transform: uppercase; letter-spacing: 0.5px; color: #6c757d; border: none; padding: 14px 16px; }
-        .table tbody td { padding: 14px 16px; vertical-align: middle; border-color: #f0f2f5; }
-        .table tbody tr:hover { background: #f8f9ff; }
-        .btn-api { background: #6f42c1; color: white; border: none; font-size: 0.75rem; font-weight: 600; letter-spacing: 0.3px; }
-        .btn-api:hover { background: #5a32a3; color: white; }
-        .btn-json { background: #6f42c1; color: white; border: none; font-size: 0.7rem; }
-        .btn-json:hover { background: #5a32a3; color: white; }
-    </style>
-</head>
-<body>
+{% extends 'base.html' %}
 
-<div class="sidebar">
-    <div class="brand"><i class="bi bi-diagram-3"></i> CRM System</div>
-    <div class="mt-3">
-        <a href="/dashboard/"><i class="bi bi-speedometer2"></i> Dashboard</a>
-        <a href="/customers/"><i class="bi bi-people"></i> Customers</a>
-        <a href="/leads/"><i class="bi bi-funnel"></i> Leads</a>
-        <a href="/opportunities/"><i class="bi bi-trophy"></i> Opportunities</a>
-        <a href="/interactions/" class="active"><i class="bi bi-chat-dots"></i> Interactions</a>
-        <a href="/tasks/"><i class="bi bi-check2-square"></i> Tasks</a>
-        <a href="/support/"><i class="bi bi-headset"></i> Support</a>
-        <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
-        <div style="border-top: 1px solid rgba(255,255,255,0.1); margin: 20px 0;"></div>
-        <a href="/accounts/logout/"><i class="bi bi-box-arrow-left"></i> Logout</a>
+{% block title %}Interactions - CRM{% endblock %}
+{% block nav_interactions %}class="active"{% endblock %}
+
+{% block content %}
+<div class="topbar">
+    <div>
+        <h5 class="mb-0 fw-bold"><i class="bi bi-chat-dots text-primary me-2"></i>Interaction History</h5>
+        <small class="text-muted">{{ total }} interaction{{ total|pluralize }} found</small>
     </div>
 </div>
 
-<div class="main-content">
-    <div class="topbar">
-        <div>
-            <h5 class="mb-0 fw-bold"><i class="bi bi-chat-dots text-primary me-2"></i>Interaction History</h5>
-            <small class="text-muted">{{ total }} interaction{{ total|pluralize }} found</small>
+<div class="table-card mb-4 p-3">
+    <form method="get" class="row g-2 align-items-end">
+        <div class="col-md-6">
+            <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="🔍 Search subject, customer...">
         </div>
-    </div>
-
-    <!-- Filter -->
-    <div class="table-card mb-4 p-3">
-        <form method="get" class="row g-2 align-items-end">
-            <div class="col-md-6">
-                <input type="text" name="q" value="{{ query }}" class="form-control" placeholder="🔍 Search subject, customer...">
-            </div>
-            <div class="col-md-3">
-                <select name="type" class="form-select">
-                    <option value="">All Types</option>
-                    <option value="phone_call" {% if type_filter == 'phone_call' %}selected{% endif %}>📞 Phone Call</option>
-                    <option value="email" {% if type_filter == 'email' %}selected{% endif %}>📧 Email</option>
-                    <option value="meeting" {% if type_filter == 'meeting' %}selected{% endif %}>🤝 Meeting</option>
-                    <option value="chat" {% if type_filter == 'chat' %}selected{% endif %}>💬 Chat</option>
-                    <option value="site_visit" {% if type_filter == 'site_visit' %}selected{% endif %}>🏢 Site Visit</option>
-                </select>
-            </div>
-            <div class="col-md-2">
-                <button type="submit" class="btn btn-primary w-100">Filter</button>
-            </div>
-            <div class="col-md-1">
-                <a href="/interactions/" class="btn btn-outline-secondary w-100">Reset</a>
-            </div>
-        </form>
-    </div>
-
-    <!-- Table -->
-    <div class="table-card">
-        <table class="table mb-0">
-            <thead>
-                <tr>
-                    <th>#</th>
-                    <th>Type</th>
-                    <th>Subject</th>
-                    <th>Customer</th>
-                    <th>Direction</th>
-                    <th>Outcome</th>
-                    <th>Date</th>
-                    <th>Logged By</th>
-                </tr>
-            </thead>
-            <tbody>
-                {% for interaction in interactions %}
-                <tr>
-                    <td class="text-muted">{{ forloop.counter }}</td>
-                    <td>
-                        {% if interaction.type == 'phone_call' %}<span class="badge bg-success">📞 Call</span>
-                        {% elif interaction.type == 'email' %}<span class="badge bg-info">📧 Email</span>
-                        {% elif interaction.type == 'meeting' %}<span class="badge bg-primary">🤝 Meeting</span>
-                        {% elif interaction.type == 'chat' %}<span class="badge bg-warning text-dark">💬 Chat</span>
-                        {% else %}<span class="badge bg-secondary">🏢 Site Visit</span>{% endif %}
-                    </td>
-                    <td class="fw-semibold">{{ interaction.subject }}</td>
-                    <td>
-                        <a href="/customers/{{ interaction.customer.pk }}/" class="text-decoration-none">
-                            {{ interaction.customer.full_name }}
-                        </a>
-                    </td>
-                    <td>
-                        {% if interaction.direction == 'inbound' %}
-                            <span class="badge bg-success bg-opacity-10 text-success">↙ Inbound</span>
-                        {% elif interaction.direction == 'outbound' %}
-                            <span class="badge bg-primary bg-opacity-10 text-primary">↗ Outbound</span>
-                        {% else %}—{% endif %}
-                    </td>
-                    <td>
-                        {% if interaction.outcome %}
-                            <span class="badge bg-light text-dark">{{ interaction.get_outcome_display }}</span>
-                        {% else %}—{% endif %}
-                    </td>
-                    <td class="text-muted">{{ interaction.interaction_date|date:"M d, Y H:i" }}</td>
-                    <td>{{ interaction.user|default:"—" }}</td>
-                </tr>
-                {% empty %}
-                <tr>
-                    <td colspan="8" class="text-center py-5 text-muted">
-                        <i class="bi bi-chat-dots" style="font-size:2rem;"></i>
-                        <p class="mt-2">No interactions logged yet.</p>
-                    </td>
-                </tr>
-                {% endfor %}
-            </tbody>
-        </table>
-    </div>
+        <div class="col-md-3">
+            <select name="type" class="form-select">
+                <option value="">All Types</option>
+                <option value="phone_call" {% if type_filter == 'phone_call' %}selected{% endif %}>📞 Phone Call</option>
+                <option value="email" {% if type_filter == 'email' %}selected{% endif %}>📧 Email</option>
+                <option value="meeting" {% if type_filter == 'meeting' %}selected{% endif %}>🤝 Meeting</option>
+                <option value="chat" {% if type_filter == 'chat' %}selected{% endif %}>💬 Chat</option>
+                <option value="site_visit" {% if type_filter == 'site_visit' %}selected{% endif %}>🏢 Site Visit</option>
+            </select>
+        </div>
+        <div class="col-md-2">
+            <button type="submit" class="btn btn-primary w-100">Filter</button>
+        </div>
+        <div class="col-md-1">
+            <a href="/interactions/" class="btn btn-outline-secondary w-100">Reset</a>
+        </div>
+    </form>
 </div>
-</body>
-</html>
+
+<div class="table-card">
+    <table class="table mb-0">
+        <thead>
+            <tr>
+                <th>#</th><th>Type</th><th>Subject</th><th>Customer</th>
+                <th>Direction</th><th>Outcome</th><th>Date</th><th>Logged By</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for interaction in interactions %}
+            <tr>
+                <td class="text-muted">{{ forloop.counter }}</td>
+                <td>
+                    {% if interaction.type == 'phone_call' %}<span class="badge bg-success">📞 Call</span>
+                    {% elif interaction.type == 'email' %}<span class="badge bg-info">📧 Email</span>
+                    {% elif interaction.type == 'meeting' %}<span class="badge bg-primary">🤝 Meeting</span>
+                    {% elif interaction.type == 'chat' %}<span class="badge bg-warning text-dark">💬 Chat</span>
+                    {% else %}<span class="badge bg-secondary">🏢 Site Visit</span>{% endif %}
+                </td>
+                <td class="fw-semibold">{{ interaction.subject }}</td>
+                <td>
+                    <a href="/customers/{{ interaction.customer.pk }}/" class="text-decoration-none">
+                        {{ interaction.customer.full_name }}
+                    </a>
+                </td>
+                <td>
+                    {% if interaction.direction == 'inbound' %}
+                        <span class="badge bg-success bg-opacity-10 text-success">↙ Inbound</span>
+                    {% elif interaction.direction == 'outbound' %}
+                        <span class="badge bg-primary bg-opacity-10 text-primary">↗ Outbound</span>
+                    {% else %}—{% endif %}
+                </td>
+                <td>
+                    {% if interaction.outcome %}
+                        <span class="badge bg-light text-dark">{{ interaction.get_outcome_display }}</span>
+                    {% else %}—{% endif %}
+                </td>
+                <td class="text-muted">{{ interaction.interaction_date|date:"M d, Y H:i" }}</td>
+                <td>{{ interaction.user|default:"—" }}</td>
+            </tr>
+            {% empty %}
+            <tr>
+                <td colspan="8" class="text-center py-5 text-muted">
+                    <i class="bi bi-chat-dots" style="font-size:2rem;"></i>
+                    <p class="mt-2">No interactions logged yet.</p>
+                </td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}
