@@ -32,25 +32,11 @@ def interaction_list(request):
 
 
 @login_required
-<<<<<<< HEAD
-def interaction_add(request, customer_pk=None):
-    customer = None
-    customers = None
-    if customer_pk:
-        customer = get_object_or_404(Customer, pk=customer_pk)
-    else:
-        customers = Customer.objects.all().order_by('full_name')
-=======
 @sales_or_service_required
 def interaction_add(request, customer_pk):
     customer = get_object_or_404(Customer, pk=customer_pk)
->>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
 
     if request.method == 'POST':
-        if not customer:
-            customer_id = request.POST.get('customer')
-            customer = get_object_or_404(Customer, pk=customer_id)
-
         Interaction.objects.create(
             customer=customer,
             user=request.user,
@@ -65,8 +51,6 @@ def interaction_add(request, customer_pk):
         return redirect('customer_detail', pk=customer.pk)
 
     context = {'customer': customer}
-    if customers is not None:
-        context['customers'] = customers
     return render(request, 'interactions/interaction_add.html', context)
 
 

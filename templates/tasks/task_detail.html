@@ -130,8 +130,11 @@
             ><i class="bi bi-check2-square"></i> Tasks</a
           >
           <a href="/support/"><i class="bi bi-headset"></i> Support</a>
-    
+
           <a href="/admin/"><i class="bi bi-gear"></i> Admin Panel</a>
+          <a href="/api/api-explorer/"
+            ><i class="bi bi-braces"></i> API Explorer</a
+          >
           <div
             style="
               border-top: 1px solid rgba(255, 255, 255, 0.1);
@@ -239,17 +242,17 @@
               <div class="info-row">
                 <div class="info-label">Assigned To</div>
                 <div>
-                  {{
-                  task.assigned_to.get_full_name|default:task.assigned_to.username|default:"—"
-                  }}
+                  {% if task.assigned_to %} {{
+                  task.assigned_to.get_full_name|default:task.assigned_to.username
+                  }} {% else %} — {% endif %}
                 </div>
               </div>
               <div class="info-row">
                 <div class="info-label">Created By</div>
                 <div>
-                  {{
-                  task.created_by.get_full_name|default:task.created_by.username|default:"—"
-                  }}
+                  {% if task.created_by %} {{
+                  task.created_by.get_full_name|default:task.created_by.username
+                  }} {% else %} — {% endif %}
                 </div>
               </div>
               <div class="info-row">
@@ -312,8 +315,7 @@
                   {{ task.opportunity }}
                 </a>
               </div>
-              {% endif %} {% if not task.customer and not task.lead and not
-              task.opportunity %}
+              {% endif %} {% if not task.customer and not task.lead and not task.opportunity %}
               <p class="text-muted small">
                 Not linked to any customer, lead, or opportunity.
               </p>

@@ -161,12 +161,8 @@ class SupportTicketDetailAPI(generics.RetrieveUpdateDestroyAPIView):
 
 class TicketCommentListCreateAPI(generics.ListCreateAPIView):
     serializer_class = TicketCommentSerializer
-<<<<<<< HEAD
     permission_classes = [IsAuthenticated]
-=======
-    permission_classes = [IsServiceRole]
 
->>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
     def get_queryset(self):
         return TicketComment.objects.filter(ticket_id=self.kwargs['ticket_pk'])
 
