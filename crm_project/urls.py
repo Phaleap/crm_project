@@ -8,6 +8,7 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('', lambda request: redirect('dashboard/'), name='home'),
     path('accounts/', include('django.contrib.auth.urls')),  # add this
+    path('accounts/', include('accounts.urls')),  # add this
     path('dashboard/', include('reports.urls')),              # uncomment this
     path('customers/', include('customers.urls')),
     path('leads/', include('leads.urls')),

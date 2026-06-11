@@ -1,5 +1,6 @@
 from rest_framework import serializers
 from customers.models import Customer, CustomerTag
+from interactions.models import Interaction
 from leads.models import Lead
 from opportunities.models import Opportunity
 from interactions.models import Interaction

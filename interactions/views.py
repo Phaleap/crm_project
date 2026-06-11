@@ -32,11 +32,25 @@ def interaction_list(request):
 
 
 @login_required
+<<<<<<< HEAD
+def interaction_add(request, customer_pk=None):
+    customer = None
+    customers = None
+    if customer_pk:
+        customer = get_object_or_404(Customer, pk=customer_pk)
+    else:
+        customers = Customer.objects.all().order_by('full_name')
+=======
 @sales_or_service_required
 def interaction_add(request, customer_pk):
     customer = get_object_or_404(Customer, pk=customer_pk)
+>>>>>>> 2e356fe886a5f667da1a2e04ea5cf6455d5458e2
 
     if request.method == 'POST':
+        if not customer:
+            customer_id = request.POST.get('customer')
+            customer = get_object_or_404(Customer, pk=customer_id)
+
         Interaction.objects.create(
             customer=customer,
             user=request.user,
@@ -48,9 +62,29 @@ def interaction_add(request, customer_pk):
             outcome=request.POST.get('outcome', ''),
             interaction_date=request.POST.get('interaction_date'),
         )
-        return redirect('customer_detail', pk=customer_pk)
+        return redirect('customer_detail', pk=customer.pk)
 
-    return render(request, 'interactions/interaction_add.html', {'customer': customer})
+    context = {'customer': customer}
+    if customers is not None:
+        context['customers'] = customers
+    return render(request, 'interactions/interaction_add.html', context)
+
+
+@login_required
+def interaction_edit(request, pk):
+    interaction = get_object_or_404(Interaction, pk=pk)
+    if request.method == 'POST':
+        interaction.type = request.POST.get('type')
+        interaction.subject = request.POST.get('subject')
+        interaction.description = request.POST.get('description', '')
+        interaction.direction = request.POST.get('direction', '')
+        interaction.duration_minutes = request.POST.get('duration_minutes') or None
+        interaction.outcome = request.POST.get('outcome', '')
+        interaction.interaction_date = request.POST.get('interaction_date')
+        interaction.save()
+        return redirect('customer_detail', pk=interaction.customer.pk)
+
+    return render(request, 'interactions/interaction_edit.html', {'interaction': interaction})
 
 
 @login_required
